@@ -11,7 +11,7 @@ public class Program
 	{
 		//maybe load stuff from a file?
 		departments = new ArrayList<String>();
-		electivelist =new ArrayList<String>();
+		electivelist = new ArrayList<String>();
 	}
 
 	public void addDepartment(String depart)
@@ -63,4 +63,20 @@ public class Program
 	}
 	//we should save the stuff
 
+	public void displayProgram()
+	{
+		System.out.println("\nTitle: " + title);
+		
+		System.out.println("Description: " + desc);
+		
+		System.out.print("Departments: ");
+		for(String d: departments)
+			System.out.print(d + " ");
+		System.out.println();
+
+		System.out.print("Electives: " );
+		for(String e: electivelist)
+			System.out.print(e + " ");
+		System.out.println();
+	}
 }
