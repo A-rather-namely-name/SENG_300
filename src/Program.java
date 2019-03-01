@@ -6,12 +6,15 @@ public class Program
 	String desc = "";
 	private ArrayList<String> departments;
 	private ArrayList<String> electivelist;
+	private ArrayList<String> requiredCoursesList;
+
 
 	public Program()
 	{
 		//maybe load stuff from a file?
 		departments = new ArrayList<String>();
 		electivelist = new ArrayList<String>();
+		requiredCoursesList = new ArrayList<String>();
 	}
 
 	public void addDepartment(String depart)
@@ -47,7 +50,7 @@ public class Program
 		}
 	}
 	public void add_Elective(String name){
-		
+
 		electivelist.add(name);
 		//save?
 	}
@@ -63,12 +66,38 @@ public class Program
 	}
 	//we should save the stuff
 
+
+
+	//same stuff that was done for Electives for the required courses
+	public void listRequiredCourses(){
+		if (requiredCoursesList.size() == 0){
+			System.out.println("There are no required courses");
+		} else {
+			for (int i = 0; i < requiredCoursesList.size(); i++ ){
+				System.out.println(requiredCoursesList.get(i));
+			}
+		}
+	}
+
+	public void addRequiredCourses(String rc){
+		requiredCoursesList.add(rc);
+	}
+
+	public void removeRequiredCourses(String rc){
+		if (requiredCoursesList.contains(rc)){
+			requiredCoursesList.remove(rc);
+		} else {
+			System.out.println("Required course "+rc+" was not found.");
+			System.out.println("Make sure you spelled it correctly.");
+		}
+	}
+
 	public void displayProgram()
 	{
 		System.out.println("\nTitle: " + title);
-		
+
 		System.out.println("Description: " + desc);
-		
+
 		System.out.print("Departments: ");
 		for(String d: departments)
 			System.out.print(d + " ");
@@ -76,6 +105,11 @@ public class Program
 
 		System.out.print("Electives: " );
 		for(String e: electivelist)
+			System.out.print(e + " ");
+		System.out.println();
+
+		System.out.print("Required Courses: " );
+		for(String e: requiredCoursesList)
 			System.out.print(e + " ");
 		System.out.println();
 	}
