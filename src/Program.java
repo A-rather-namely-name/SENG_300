@@ -4,10 +4,10 @@ public class Program
 {
 	String title = "";
 	String desc = "";
+	String program_id = "";
 	private ArrayList<String> departments;
 	private ArrayList<String> electivelist;
 	private ArrayList<String> requiredCoursesList;
-
 
 	public Program()
 	{
@@ -27,18 +27,32 @@ public class Program
 		return departments;
 	}
 
-	public void setProgramTitle(String t) {
+	public void setProgramTitle(String t) 
+	{
 		title = t;
 	}
 	public String getProgramTitle() {
 		return title;
 	}
+	
 	public void setProgramDesc(String d) {
 		desc = d;
 	}
+	
 	public String getProgramDesc() {
 		return desc;
 	}
+	
+	public void setProgramID(String id)
+	{
+		this.program_id = id;
+	}
+	
+	public String getProgramID()
+	{
+		return this.program_id;
+	}
+	
 	public void list_Electives(){
 		//for now just displays on terminal
 		if(electivelist.size()==0) {
