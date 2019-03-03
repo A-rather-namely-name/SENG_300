@@ -17,11 +17,22 @@ public class Program
 		requiredCoursesList = new ArrayList<String>();
 	}
 
+	//Add a new department
 	public void addDepartment(String depart)
 	{
 		departments.add(depart);
 	}
 
+	//Remove a department, checking that it exists
+	public void removeDepartment(String depart)
+	{
+		if (departments.contains(depart))
+			departments.remove(depart);
+		else
+			System.out.println("\nNo department " + depart + " found");
+	}
+	
+	//Retrieve the list of departments
 	public ArrayList<String> getDepartments()
 	{
 		return departments;
@@ -73,7 +84,7 @@ public class Program
 			electivelist.remove(name);
 		}else {
 			//should display a message on a window but for now its just outputs to terminal
-			System.out.println("Elective "+name+" was not found.");
+			System.out.println("\nElective "+name+" was not found.");
 			System.out.println("Make sure you spelled it correctly.");
 		}
 		//save?
@@ -101,14 +112,16 @@ public class Program
 		if (requiredCoursesList.contains(rc)){
 			requiredCoursesList.remove(rc);
 		} else {
-			System.out.println("Required course "+rc+" was not found.");
+			System.out.println("\nRequired course "+rc+" was not found.");
 			System.out.println("Make sure you spelled it correctly.");
 		}
 	}
 
 	public void displayProgram()
 	{
-		System.out.println("\nTitle: " + title);
+		System.out.println("\nID: " + program_id);
+		
+		System.out.println("Title: " + title);
 
 		System.out.println("Description: " + desc);
 
