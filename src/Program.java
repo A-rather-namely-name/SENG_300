@@ -31,39 +31,44 @@ public class Program
 		else
 			System.out.println("\nNo department " + depart + " found");
 	}
-	
+
 	//Retrieve the list of departments
 	public ArrayList<String> getDepartments()
 	{
 		return departments;
 	}
 
-	public void setProgramTitle(String t) 
+	//Set method for program title
+	public void setProgramTitle(String t)
 	{
 		title = t;
 	}
+
+	//Get method for program title, returns title
 	public String getProgramTitle() {
 		return title;
 	}
-	
+
+	//Set method for program description
 	public void setProgramDesc(String d) {
 		desc = d;
 	}
-	
+
+	//Get method for program description, returns description
 	public String getProgramDesc() {
 		return desc;
 	}
-	
+
 	public void setProgramID(String id)
 	{
 		this.program_id = id;
 	}
-	
+
 	public String getProgramID()
 	{
 		return this.program_id;
 	}
-	
+
 	public void list_Electives(){
 		//for now just displays on terminal
 		if(electivelist.size()==0) {
@@ -120,7 +125,7 @@ public class Program
 	public void displayProgram()
 	{
 		System.out.println("\nID: " + program_id);
-		
+
 		System.out.println("Title: " + title);
 
 		System.out.println("Description: " + desc);
