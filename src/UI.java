@@ -4,7 +4,9 @@ public class UI
 {
 
 	private ArrayList<Program> programs;
-	Scanner input;
+	private ArrayList<Course> courses;
+	private Scanner input;
+	private FileIO f = new FileIO();
 
 	public UI()
 	{
@@ -12,6 +14,7 @@ public class UI
 		int selection;
 		input = new Scanner(System.in);
 		programs = new ArrayList<Program>();
+		courses = new ArrayList<Course>();
 
 		System.out.println("Welcome to the program management system");
 
@@ -36,7 +39,19 @@ public class UI
 						break;
 				case 3: editProgram();
 						break;
-				case 4: quit = true;
+				case 4:
+					System.out.println("Checking for save ...");
+					if (f.exitCheck()) {
+						f.fileSave(programs, courses);
+					} else {
+									System.out.println("Do you want to overwrite your current database? (Y/N) ");
+									input = new Scanner(System.in);
+									String overwrite = input.nextLine().toUpperCase();
+									if (overwrite.equals("Y")) {
+													f.fileSave(programs,courses);
+									}
+					}
+					quit = true;
 						break;
 				default: System.out.println("Invalid selection");
 						break;
@@ -72,8 +87,8 @@ public class UI
 		//Get Title for program
 		System.out.println("\nEnter the title of the program");
 		userInput = input.nextLine();
-		program.setProgramTitle(userInput);		
-		
+		program.setProgramTitle(userInput);
+
 		//Get description for program
 		System.out.println("\nEnter the description of the program");
 		userInput = input.nextLine();
@@ -114,27 +129,27 @@ public class UI
 		Program currentProgram = null;
 		String userInput;
 		boolean main = false;
-		
+
 		input.nextLine();
-		
+
 		while(true)
-		{			
+		{
 			System.out.println("\nPlease enter the title or ID of the course you wish to modify\n");
-			
+
 			programToEdit = input.nextLine();
-			
+
 			//Check if the program exists
 			for (Program p: programs)
 			{
 				//System.out.println(p.getProgramID());
 				//System.out.println(p.getProgramTitle());
-				
+
 				if (p.getProgramTitle().equals(programToEdit))
 					currentProgram = p;
 				else if (p.getProgramID().equals(programToEdit))
 					currentProgram = p;
 			}
-			
+
 			//Move on if valid program has been specified, otherwise let user know that no such program exists
 			if (currentProgram != null)
 				break;
@@ -144,12 +159,12 @@ public class UI
 				main = true;
 				break;
 			}
-		}	
-		
+		}
+
 		if (main == false)
 			{
 			System.out.println("\nPlease select what you would like to do with this program");
-			
+
 			//Options for editing a program
 			System.out.println("1. Change the program ID");
 			System.out.println("2. Change the program Title");
@@ -161,10 +176,10 @@ public class UI
 			System.out.println("8. Add a required course to the program");
 			System.out.println("9. Remove a required course from the program");
 			System.out.println("0. Delete the program entirely\n");
-			
+
 			selection = input.nextInt();
 			input.nextLine();
-			
+
 			//Perform user choice of editing
 			switch (selection)
 			{
@@ -182,7 +197,7 @@ public class UI
 				case 3: System.out.println("\nEnter a new Description\n");
 						userInput = input.nextLine();
 						currentProgram.setProgramDesc(userInput);
-						break;	
+						break;
 				//Add department
 				case 4: System.out.println("\nEnter the new department\n");
 						userInput = input.nextLine();
@@ -192,7 +207,7 @@ public class UI
 				case 5: System.out.println("\nEnter the department to remove the program from\n");
 						userInput = input.nextLine();
 						currentProgram.removeDepartment(userInput);
-						break;	
+						break;
 				//Add elective
 				case 6: System.out.println("\nEnter the new elective\n");
 						userInput = input.nextLine();
@@ -202,7 +217,7 @@ public class UI
 				case 7: System.out.println("\nEnter the elective to remove\n");
 						userInput = input.nextLine();
 						currentProgram.remove_Elective(userInput);
-						break;	
+						break;
 				//Add required course
 				case 8: System.out.println("\nEnter the new required course\n");
 						userInput = input.nextLine();
