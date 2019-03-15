@@ -40,15 +40,26 @@ public class UI
 				case 3: editProgram();
 						break;
 				case 4:
-					System.out.println("Checking for save ...");
-					if (f.exitCheck()) {
-						f.fileSave(programs, courses);
+					System.out.println("Checking for program save ...");
+					if (f.exitCheck("programSave")) {
+						f.fileProgramSave(programs);
 					} else {
-									System.out.println("Do you want to overwrite your current database? (Y/N) ");
+									System.out.println("Do you want to overwrite your current program save? (Y/N) ");
 									input = new Scanner(System.in);
 									String overwrite = input.nextLine().toUpperCase();
 									if (overwrite.equals("Y")) {
-													f.fileSave(programs,courses);
+													f.fileProgramSave(programs);
+									}
+					}
+					System.out.println("Checking for course save ...");
+					if (f.exitCheck("courseSave")) {
+						f.fileCourseSave(courses);
+					} else {
+									System.out.println("Do you want to overwrite your current course save? (Y/N) ");
+									input = new Scanner(System.in);
+									String overwrite = input.nextLine().toUpperCase();
+									if (overwrite.equals("Y")) {
+													f.fileCourseSave(courses);
 									}
 					}
 					quit = true;

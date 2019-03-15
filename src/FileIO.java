@@ -5,19 +5,17 @@ public class FileIO {
 
   /** Method that saves the programs and courses to a file
     * @param p  ArrayList of Program object p
-    * @param c  ArrayList of Course object c
     */
-  public void fileSave(ArrayList<Program> p, ArrayList<Course> c) {
+  public void fileProgramSave(ArrayList<Program> p) {
     Scanner input = new Scanner(System.in);
-    File save;
+    File saveProgram;
     boolean createOrLoadFile = false;
 
-    String fileName = "saveFile";
+    String fileName = "programSave";
     do {
-
-            save = new File(fileName + ".dat");
+            saveProgram = new File(fileName + ".dat");
             try {
-                    save.createNewFile();
+                    saveProgram.createNewFile();
                     createOrLoadFile = true;
                     System.out.println("File created. ");
             } catch (IOException e) {
@@ -28,16 +26,14 @@ public class FileIO {
     } while (createOrLoadFile != true);
 
     try {
-            FileOutputStream outClear = new FileOutputStream(save);
+            FileOutputStream outClear = new FileOutputStream(saveProgram);
             outClear.write(("").getBytes());
             outClear.close();
 
-            FileOutputStream out = new FileOutputStream(save);
+            FileOutputStream out = new FileOutputStream(saveProgram);
             ObjectOutputStream writer = new ObjectOutputStream(out);
-
-            System.out.println("File saved");
             writer.writeObject(p);
-            writer.writeObject(c);
+            System.out.println("Program file saved. ");
 
             writer.close();
 
@@ -50,19 +46,62 @@ public class FileIO {
     }
   }
 
-  /** Checks whether dataFile.dat exists or not
+  /** Method that saves the programs and courses to a file
+    * @param c  ArrayList of Courses object c
+    */
+  public void fileCourseSave(ArrayList<Course> c) {
+    Scanner input = new Scanner(System.in);
+    File saveCourse;
+    boolean createOrLoadFile = false;
+
+    String fileName = "courseSave";
+    do {
+            saveCourse = new File(fileName + ".dat");
+            try {
+                    saveCourse.createNewFile();
+                    createOrLoadFile = true;
+                    System.out.println("File created. ");
+            } catch (IOException e) {
+                    createOrLoadFile = false;
+                    System.out.println("File could not be created.");
+                    System.err.println("IOException:	"+ e.getMessage());
+            }
+    } while (createOrLoadFile != true);
+
+    try {
+            FileOutputStream outClear = new FileOutputStream(saveCourse);
+            outClear.write(("").getBytes());
+            outClear.close();
+
+            FileOutputStream out = new FileOutputStream(saveCourse);
+            ObjectOutputStream writer = new ObjectOutputStream(out);
+            writer.writeObject(c);
+            System.out.println("Course file saved. ");
+
+            writer.close();
+
+    } catch (FileNotFoundException e) {
+            System.out.println("File could not be found.");
+            System.err.println("FileNotFoundException: " + e.getMessage());
+    } catch (IOException e) {
+            System.out.println("Problem with input/output.");
+            System.err.println("IOException: " + e.getMessage());
+    }
+  }
+
+  /** Checks whether save files exists or not
     * @return boolean if it exists or not
     */
-  public boolean exitCheck() {
+  public boolean exitCheck(String s) {
           Scanner input = new Scanner(System.in);
           File save;
-          String fileName = "saveFile";
-          save = new File(fileName + ".dat");
+          save = new File(s + ".dat");
 
           if(save.exists()) {
                   return false;
           }
           return true;
   }
+
 
 }
