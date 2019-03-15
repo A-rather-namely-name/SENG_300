@@ -89,6 +89,84 @@ public class FileIO {
     }
   }
 
+  /** Method that loads programs from a file
+    * @return  Arraylist for program
+    */
+  public ArrayList<Program> fileProgramLoad() {
+          Scanner input = new Scanner(System.in);
+          File load;
+          boolean createOrLoadFile = false;
+
+          String fileName = "programSave";
+          do {
+                  load = new File(fileName + ".dat");
+                  if (load.exists()) {
+                          try {
+                                  FileInputStream in = new FileInputStream(load);
+                                  ObjectInputStream readProgram = new ObjectInputStream(in);
+
+                                  ArrayList<Program> loadedProgram = (ArrayList<Program>)readProgram.readObject();
+                                  readProgram.close();
+                                  System.out.println("Progams loaded.");
+                                  return(loadedProgram);
+                          } catch (FileNotFoundException e) {
+                                  createOrLoadFile = false;
+                                  System.out.println("Problem with input/output.");
+                                  System.err.println("FileNotFoundException: " + e.getMessage());
+                          } catch (IOException e) {
+                                  createOrLoadFile = false;
+                                  System.out.println("File could not be found.");
+                                  System.err.println("IOException: " + e.getMessage());
+                          } catch (ClassNotFoundException e) {
+                                  createOrLoadFile = false;
+                                  System.out.println("Class could not be used to cast object.");
+                                  System.err.println("ClassNotFoundException: " + e.getMessage());
+                          }
+                  }
+
+          } while (createOrLoadFile != true);
+          return null;
+  }
+
+  /** Method that loads courses from a file
+    * @return  Arraylist for courses
+    */
+  public ArrayList<Course> fileCourseLoad() {
+          Scanner input = new Scanner(System.in);
+          File load;
+          boolean createOrLoadFile = false;
+
+          String fileName = "courseSave";
+          do {
+                  load = new File(fileName + ".dat");
+                  if (load.exists()) {
+                          try {
+                                  FileInputStream in = new FileInputStream(load);
+                                  ObjectInputStream readProgram = new ObjectInputStream(in);
+
+                                  ArrayList<Course> loadedProgram = (ArrayList<Course>)readProgram.readObject();
+                                  readProgram.close();
+                                  System.out.println("Courses loaded.");
+                                  return(loadedProgram);
+                          } catch (FileNotFoundException e) {
+                                  createOrLoadFile = false;
+                                  System.out.println("Problem with input/output.");
+                                  System.err.println("FileNotFoundException: " + e.getMessage());
+                          } catch (IOException e) {
+                                  createOrLoadFile = false;
+                                  System.out.println("File could not be found.");
+                                  System.err.println("IOException: " + e.getMessage());
+                          } catch (ClassNotFoundException e) {
+                                  createOrLoadFile = false;
+                                  System.out.println("Class could not be used to cast object.");
+                                  System.err.println("ClassNotFoundException: " + e.getMessage());
+                          }
+                  }
+
+          } while (createOrLoadFile != true);
+          return null;
+  }
+
   /** Checks whether save files exists or not
     * @return boolean if it exists or not
     */

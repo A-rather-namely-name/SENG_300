@@ -17,6 +17,8 @@ public class UI
 		courses = new ArrayList<Course>();
 
 		System.out.println("Welcome to the program management system");
+		programs = f.fileProgramLoad();
+		courses = f.fileCourseLoad();
 
 		//Run the main menu until the users quits the application
 		while(!quit)
