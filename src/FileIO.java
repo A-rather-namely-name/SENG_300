@@ -1,3 +1,4 @@
+import java.util.*;
 import java.io.*;
 
 public class FileIO {
@@ -56,7 +57,7 @@ public class FileIO {
           Scanner input = new Scanner(System.in);
           File save;
           String fileName = "saveFile";
-          data = new File(fileName + ".dat");
+          save = new File(fileName + ".dat");
 
           if(save.exists()) {
                   return false;
