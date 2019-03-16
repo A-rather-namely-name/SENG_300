@@ -39,6 +39,10 @@ public class Program implements Serializable
 		return departments;
 	}
 
+	public ArrayList<String> getElectives() {
+		return electivelist;
+	}
+
 	//Set method for program title
 	public void setProgramTitle(String t)
 	{
