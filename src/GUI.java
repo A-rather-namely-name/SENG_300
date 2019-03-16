@@ -22,51 +22,66 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import java.io.*;
 import java.util.*;
+import javafx.geometry.*;
 
 public class GUI extends Application{
 
   //standard window dimensions
   private int winX = 300;
-  private int winY = 300;
+  private int winY = 200;
 
   //list of programs
   private ArrayList<Program> programList = new ArrayList<Program>();
 
   //strings of program components, used to display in the text fields during editing and possibly to view program
-  private String viewID;
-  private String viewTitle;
-  private String viewDesc;
-  private String viewDepart;
-  private String viewElect;
-  private String viewRequire;
+  private String viewID = "";
+  private String viewTitle = "";
+  private String viewDesc = "";
+  private String viewDepart = "";
+  private String viewElect = "";
+  private String viewRequire = "";
 
   //program selected to edit saved for editing scene
   Program programToEdit;
 
-
   public void start(Stage primaryStage){
 
-    //vbox and scene for the main menu
+    //gridpane and scene for the main menu
 
-    VBox menuBox = new VBox();
-    menuBox.setAlignment(Pos.CENTER);
-    menuBox.setSpacing(10);
+    GridPane menuGrid = new GridPane();
+    menuGrid.setHgap(10);
+    menuGrid.setVgap(10);
+    menuGrid.setPadding(new Insets(20,20,20,20));
 
     Button listProgramsButton = new Button();
-    listProgramsButton.setText("List all Programs");
+    listProgramsButton.setText("View Programs");
+    menuGrid.add(listProgramsButton, 0, 0);
 
     Button addProgramButton = new Button();
     addProgramButton.setText("Add a New Program");
+    menuGrid.add(addProgramButton, 0, 1);
 
     Button editProgramButton = new Button();
     editProgramButton.setText("Edit a Program");
+    menuGrid.add(editProgramButton, 0, 2);
+
+    Button listCoursesButton = new Button();
+    listCoursesButton.setText("View Courses");
+    menuGrid.add(listCoursesButton, 1, 0);
+
+    Button editCourseButton = new Button();
+    editCourseButton.setText("Edit a Course");
+    menuGrid.add(editCourseButton, 1, 2);
+
+    Button addCourseButton = new Button();
+    addCourseButton.setText("Add a New Course");
+    menuGrid.add(addCourseButton, 1, 1);
 
     Button quitButton = new Button();
-    quitButton.setText("Quit");
+    quitButton.setText("Exit and Save");
+    menuGrid.add(quitButton, 0, 3);
 
-    menuBox.getChildren().addAll(listProgramsButton, addProgramButton, editProgramButton, quitButton);
-
-    Scene menuScene = new Scene(menuBox, winX, winY);
+    Scene menuScene = new Scene(menuGrid, winX, winY);
     primaryStage.setTitle("Program and Course Management");
     primaryStage.setScene(menuScene);
     primaryStage.show();
@@ -97,8 +112,8 @@ public class GUI extends Application{
     //view program scene, currently not using this scene, viewing program just displays to console
 
     VBox viewProgramBox = new VBox();
-    menuBox.setAlignment(Pos.CENTER);
-    menuBox.setSpacing(10);
+    viewProgramBox.setAlignment(Pos.CENTER);
+    viewProgramBox.setSpacing(10);
 
     Label viewidLbl = new Label("ID: " + viewID);
 
@@ -163,7 +178,7 @@ public class GUI extends Application{
     }
 
     Button editThisProgramButton = new Button();
-    editThisProgramButton.setText("EditProgram");
+    editThisProgramButton.setText("Edit Program");
 
     Button editBackButton = new Button();
     editBackButton.setText("Back to Menu");
@@ -297,9 +312,10 @@ public class GUI extends Application{
       }
     });
 
-    //this button exits the program
+    //this button exits the program, I'm guessing this button could also be when file i/o is implemented
     quitButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
+        //file i/o stuff??
         System.exit(0);
       }
     });
@@ -327,35 +343,58 @@ public class GUI extends Application{
           if(programList.get(i).getProgramID() == currentProgram){
             programToEdit = programList.get(i);
             viewID = programList.get(i).getProgramID();
+
             viewTitle = programList.get(i).getProgramTitle();
             viewDesc = programList.get(i).getProgramDesc();
-
-            //viewElect = programList.get(i).getElectives();
-            //view
-
-
-            /*String[] departments = departTxt.getText().split(", ");
-        		for (String s: departments)
-        			program.addDepartment(s);
-
-            String[] electives = electTxt.getText().split(", ");
-          	for (String s: electives)
-          		program.add_Elective(s);
-
-            String[] requiredCourses = requireTxt.getText().split(", ");
-          	for (String s: requiredCourses)
-          		program.addRequiredCourses(s);*/
-
-
-
-
-
-
           }
         }
 
+        ArrayList<String> departments = programToEdit.getDepartments();
+        for (String s: departments)
+          viewDepart = viewDepart + s;
 
-        start(primaryStage);
+        ArrayList<String> electives = programToEdit.getElectives();
+        for (String s: electives)
+          viewElect = viewElect + s;
+
+        ArrayList<String> required = programToEdit.getRequiredCourses();
+        for (String s: required)
+          viewRequire = viewRequire + s;
+
+        //this is the exact same VBox and scene that was already created
+        //it is here again so that the textfields contain the components of the program to be edited
+        //im sure there is a better way to do this, but idk how, this works for now
+        //with this bit not commented out however, the submitEditButton will not work
+        /*VBox editThisProgramBox = new VBox();
+        editThisProgramBox.setAlignment(Pos.CENTER);
+        editThisProgramBox.setSpacing(10);
+
+        Label editidLbl = new Label("Edit ID of the Program");
+        TextField editidTxt = new TextField(viewID);
+
+        Label edittitleLbl = new Label("Edit Title of the Program");
+        TextField edittitleTxt = new TextField(viewTitle);
+
+        Label editdescLbl = new Label("Edit Description of the Program");
+        TextField editdescTxt = new TextField(viewDesc);
+
+        Label editdepartLbl = new Label("Edit the Departments the Program Belongs to Separated by Commas");
+        TextField editdepartTxt = new TextField(viewDepart);
+
+        Label editelectLbl = new Label("Edit the Elective Courses the Program Offers Separated by Commas");
+        TextField editelectTxt = new TextField(viewElect);
+
+        Label editrequireLbl = new Label("Edit the Required Courses of the Program Separated by Commas");
+        TextField editrequireTxt = new TextField(viewRequire);
+
+        Button submitEditButton = new Button();
+        submitEditButton.setText("Submit Edits");
+
+        editThisProgramBox.getChildren().addAll(editidLbl, editidTxt, edittitleLbl, edittitleTxt, editdescLbl, editdescTxt, editdepartLbl, editdepartTxt, editelectLbl, editelectTxt, editrequireLbl, editrequireTxt, submitEditButton);
+
+        Scene editThisProgramScene = new Scene(editThisProgramBox, 500, 500);*/
+
+        start(primaryStage);start(primaryStage);start(primaryStage);
         primaryStage.setScene(editThisProgramScene);
       }
     });
@@ -367,6 +406,12 @@ public class GUI extends Application{
         programToEdit.setProgramID(editidTxt.getText());
         programToEdit.setProgramTitle(edittitleTxt.getText());
         programToEdit.setProgramDesc(editdescTxt.getText());
+
+        programToEdit.getDepartments();
+
+        programToEdit.removeAllRequiredCourses();
+        programToEdit.removeAllElectives();
+        programToEdit.removeAllDepartments();
 
         String[] departments = editdepartTxt.getText().split(", ");
     		for (String s: departments)

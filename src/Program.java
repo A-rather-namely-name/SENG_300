@@ -101,7 +101,10 @@ public class Program implements Serializable
 	}
 	//we should save the stuff
 
-
+	public ArrayList<String> getRequiredCourses()
+	{
+		return requiredCoursesList;
+	}
 
 	//same stuff that was done for Electives for the required courses
 	public void listRequiredCourses(){
@@ -113,6 +116,8 @@ public class Program implements Serializable
 			}
 		}
 	}
+
+
 
 	public void addRequiredCourses(String rc){
 		requiredCoursesList.add(rc);
@@ -126,6 +131,19 @@ public class Program implements Serializable
 			System.out.println("Make sure you spelled it correctly.");
 		}
 	}
+
+	public void removeAllRequiredCourses(){
+		requiredCoursesList.clear();
+	}
+
+	public void removeAllElectives(){
+		electivelist.clear();
+	}
+
+	public void removeAllDepartments(){
+		departments.clear();
+	}
+
 
 	public void displayProgram()
 	{
