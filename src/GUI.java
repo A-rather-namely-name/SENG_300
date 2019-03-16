@@ -322,13 +322,11 @@ public class GUI extends Application{
     editThisProgramButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
 
-
         String currentProgram = editProgramListChoiceBox.getValue();
         for(int i = 0 ; i < programList.size() ; i++){
           if(programList.get(i).getProgramID() == currentProgram){
             programToEdit = programList.get(i);
             viewID = programList.get(i).getProgramID();
-            System.out.println("sup bitch");
             viewTitle = programList.get(i).getProgramTitle();
             viewDesc = programList.get(i).getProgramDesc();
 
