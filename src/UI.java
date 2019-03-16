@@ -13,8 +13,8 @@ public class UI
 		boolean quit = false;
 		int selection;
 		input = new Scanner(System.in);
-		programs = new ArrayList<Program>();
-		courses = new ArrayList<Course>();
+		//programs = new ArrayList<Program>();
+		//courses = new ArrayList<Course>();
 
 		System.out.println("Welcome to the program management system");
 		programs = f.fileProgramLoad();

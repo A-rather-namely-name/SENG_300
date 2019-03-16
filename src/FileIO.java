@@ -125,7 +125,7 @@ public class FileIO {
                   }
                   createOrLoadFile = true;
           } while (createOrLoadFile != true);
-          return null;
+          return new ArrayList<Program>();
   }
 
   /** Method that loads courses from a file
@@ -164,7 +164,7 @@ public class FileIO {
                   }
                   createOrLoadFile = true;
           } while (createOrLoadFile != true);
-          return null;
+          return new ArrayList<Course>();
   }
 
   /** Checks whether save files exists or not
