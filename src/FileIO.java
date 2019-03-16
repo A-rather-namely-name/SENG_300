@@ -123,7 +123,7 @@ public class FileIO {
                                   System.err.println("ClassNotFoundException: " + e.getMessage());
                           }
                   }
-
+                  createOrLoadFile = true;
           } while (createOrLoadFile != true);
           return null;
   }
@@ -162,7 +162,7 @@ public class FileIO {
                                   System.err.println("ClassNotFoundException: " + e.getMessage());
                           }
                   }
-
+                  createOrLoadFile = true;
           } while (createOrLoadFile != true);
           return null;
   }
