@@ -9,6 +9,13 @@ public class Course implements Serializable {
 	private ArrayList<String> pre_req;
 	private ArrayList<String> mutually_exclusive;
 
+	public Course()
+	{
+		//maybe load stuff from a file?
+		pre_req = new ArrayList<String>();
+		mutually_exclusive = new ArrayList<String>();
+	}	
+	
 	public void set_title(String title)
 	{
 		this.title = title;

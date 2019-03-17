@@ -32,6 +32,9 @@ public class GUI extends Application{
 
   //list of programs
   private ArrayList<Program> programList = new ArrayList<Program>();
+  
+  //list of courses
+  private ArrayList<Course> courseList = new ArrayList<Course>();
 
   //strings of program components, used to display in the text fields during editing and possibly to view program
   private String viewID = "";
@@ -218,8 +221,43 @@ public class GUI extends Application{
 
     Scene editThisProgramScene = new Scene(editThisProgramBox, 500, 500);
 
+	
+	
+	
+    //vbox and scene for adding a program
 
+    VBox addCourseBox = new VBox();
+    addCourseBox.setAlignment(Pos.CENTER);
+    addCourseBox.setSpacing(10);
 
+    Label courseIDLbl = new Label("Enter ID of the Course");
+    TextField courseIDTxt = new TextField();
+
+    Label courseTitleLbl = new Label("Enter Title of the Course");
+    TextField courseTitleTxt = new TextField();
+
+    Label courseDescLbl = new Label("Enter Description of the Course");
+    TextField courseDescTxt = new TextField();
+
+    Label courseYearLbl = new Label("Enter Year of the Course");
+    TextField courseYearTxt = new TextField();	
+	
+    Label coursePreReqLbl = new Label("Enter the Prerequisite Courses, Separated by Commas");
+    TextField coursePreReqTxt = new TextField();
+
+    Label courseMutExLbl = new Label("Enter the Mutually Exclusive Courses, Separated by Commas");
+    TextField courseMutExTxt = new TextField();
+
+    Button enterNewCourseButton = new Button();
+    enterNewCourseButton.setText("Add New Course");
+
+    addCourseBox.getChildren().addAll(courseIDLbl, courseIDTxt, courseTitleLbl, courseTitleTxt, courseDescLbl, courseDescTxt, courseYearLbl, courseYearTxt, coursePreReqLbl, coursePreReqTxt, courseMutExLbl, courseMutExTxt, enterNewCourseButton);
+
+    Scene addCourseScene = new Scene(addCourseBox, 500, 500);
+
+	
+	
+	
     //all the button actions
 
     //this button changes to the list programs scene
@@ -428,5 +466,40 @@ public class GUI extends Application{
         start(primaryStage);
       }
     });
+	
+	//////////////////
+	//Course Buttons//
+	//////////////////
+	
+    //this button changes the scene to the add course scene
+    addCourseButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(addCourseScene);
+      }
+    });
+
+    //this button takes the inputs from the text fields and creates a new course, changes scene back to main menu
+    enterNewCourseButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+
+        Course course = new Course();
+
+        course.set_id(courseIDTxt.getText());
+        course.set_title(courseTitleTxt.getText());
+        course.set_descr(courseDescTxt.getText());
+
+        String[] prereqs = coursePreReqTxt.getText().split(", ");
+    		for (String s: prereqs)
+    			course.add_pre_req(s);
+
+        String[] mutEx = courseMutExTxt.getText().split(", ");
+      	for (String s: mutEx)
+      		course.add_mutually_exclusive(s);
+
+        courseList.add(course);
+
+        start(primaryStage);
+      }
+    });	
   }
 }
