@@ -433,6 +433,44 @@ public class GUI extends Application{
         Scene editThisProgramScene = new Scene(editThisProgramBox, 500, 500);*/
 
         start(primaryStage);start(primaryStage);start(primaryStage);
+		
+		//Auto fill field with current values
+		
+		//Simple fields: ID, Titile, Description
+		editidTxt.setText(programToEdit.getProgramID());
+		edittitleTxt.setText(programToEdit.getProgramTitle());
+		editdescTxt.setText(programToEdit.getProgramDesc());
+		
+		//Comma separated fields
+		String departString;
+		String electString;
+		String requireString;
+		
+		StringJoiner departJoiner = new StringJoiner(",");
+		StringJoiner electJoiner = new StringJoiner(",");
+		StringJoiner requireJoiner = new StringJoiner(",");
+		
+		//Departments
+		for (String s: programToEdit.getDepartments())
+			departJoiner.add(s);
+		departString = departJoiner.toString();
+		
+		editdepartTxt.setText(departString);
+
+		//Electives
+		for (String s: programToEdit.getElectives())
+			electJoiner.add(s);
+		electString = electJoiner.toString();
+		
+		editelectTxt.setText(electString);		
+		
+		//Requirements
+		for (String s: programToEdit.getRequiredCourses())
+			requireJoiner.add(s);
+		requireString = requireJoiner.toString();
+		
+		editrequireTxt.setText(requireString);			
+		
         primaryStage.setScene(editThisProgramScene);
       }
     });
