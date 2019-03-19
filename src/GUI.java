@@ -27,12 +27,12 @@ import javafx.geometry.*;
 public class GUI extends Application{
 
   //standard window dimensions
-  private int winX = 300;
+  private int winX = 420;
   private int winY = 200;
 
   //list of programs
   private ArrayList<Program> programList = new ArrayList<Program>();
-  
+
   //list of courses
   private ArrayList<Course> courseList = new ArrayList<Course>();
 
@@ -221,9 +221,9 @@ public class GUI extends Application{
 
     Scene editThisProgramScene = new Scene(editThisProgramBox, 500, 500);
 
-	
-	
-	
+
+
+
     //vbox and scene for adding a program
 
     VBox addCourseBox = new VBox();
@@ -240,8 +240,8 @@ public class GUI extends Application{
     TextField courseDescTxt = new TextField();
 
     Label courseYearLbl = new Label("Enter Year of the Course");
-    TextField courseYearTxt = new TextField();	
-	
+    TextField courseYearTxt = new TextField();
+
     Label coursePreReqLbl = new Label("Enter the Prerequisite Courses, Separated by Commas");
     TextField coursePreReqTxt = new TextField();
 
@@ -255,9 +255,9 @@ public class GUI extends Application{
 
     Scene addCourseScene = new Scene(addCourseBox, 500, 500);
 
-	
-	
-	
+
+
+
     //all the button actions
 
     //this button changes to the list programs scene
@@ -433,44 +433,44 @@ public class GUI extends Application{
         Scene editThisProgramScene = new Scene(editThisProgramBox, 500, 500);*/
 
         start(primaryStage);start(primaryStage);start(primaryStage);
-		
+
 		//Auto fill field with current values
-		
+
 		//Simple fields: ID, Titile, Description
 		editidTxt.setText(programToEdit.getProgramID());
 		edittitleTxt.setText(programToEdit.getProgramTitle());
 		editdescTxt.setText(programToEdit.getProgramDesc());
-		
+
 		//Comma separated fields
 		String departString;
 		String electString;
 		String requireString;
-		
+
 		StringJoiner departJoiner = new StringJoiner(",");
 		StringJoiner electJoiner = new StringJoiner(",");
 		StringJoiner requireJoiner = new StringJoiner(",");
-		
+
 		//Departments
 		for (String s: programToEdit.getDepartments())
 			departJoiner.add(s);
 		departString = departJoiner.toString();
-		
+
 		editdepartTxt.setText(departString);
 
 		//Electives
 		for (String s: programToEdit.getElectives())
 			electJoiner.add(s);
 		electString = electJoiner.toString();
-		
-		editelectTxt.setText(electString);		
-		
+
+		editelectTxt.setText(electString);
+
 		//Requirements
 		for (String s: programToEdit.getRequiredCourses())
 			requireJoiner.add(s);
 		requireString = requireJoiner.toString();
-		
-		editrequireTxt.setText(requireString);			
-		
+
+		editrequireTxt.setText(requireString);
+
         primaryStage.setScene(editThisProgramScene);
       }
     });
@@ -504,11 +504,11 @@ public class GUI extends Application{
         start(primaryStage);
       }
     });
-	
+
 	//////////////////
 	//Course Buttons//
 	//////////////////
-	
+
     //this button changes the scene to the add course scene
     addCourseButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
@@ -538,6 +538,6 @@ public class GUI extends Application{
 
         start(primaryStage);
       }
-    });	
+    });
   }
 }
