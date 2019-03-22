@@ -37,7 +37,11 @@ public class UI
 			{
 				case 1: listPrograms();
 						break;
-				case 2: addProgram();
+				case 2: try {
+					addProgram();
+				} catch (Exception e) {
+					// Prob say somthing
+				}
 						break;
 				case 3: editProgram();
 						break;
@@ -85,16 +89,20 @@ public class UI
 	}
 
 	//Add a new program
-	public void addProgram()
+	public void addProgram() throws Exception
 	{
 		String userInput;
-
+		boolean Vlaid = true;
 		Program program = new Program();
 
 		//Get ID for program
 		System.out.println("\nEnter the ID of the program");
 		input.nextLine();
 		userInput = input.nextLine();
+		userInput=Checks.VlaidID(userInput, programs);
+		if(userInput==null) {
+			throw new Exception();
+		}
 		program.setProgramID(userInput);
 
 		//Get Title for program
