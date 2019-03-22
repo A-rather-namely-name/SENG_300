@@ -27,8 +27,8 @@ import javafx.geometry.*;
 public class GUI extends Application{
 
   //standard window dimensions
-  private int winX = 420;
-  private int winY = 200;
+  private int winX = 500;
+  private int winY = 300;
 
   //list of programs
   private ArrayList<Program> programList = new ArrayList<Program>();
