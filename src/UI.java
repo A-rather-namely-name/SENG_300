@@ -92,7 +92,6 @@ public class UI
 	public void addProgram() throws Exception
 	{
 		String userInput;
-		boolean Vlaid = true;
 		Program program = new Program();
 
 		//Get ID for program
@@ -101,6 +100,7 @@ public class UI
 		userInput = input.nextLine();
 		userInput=Checks.VlaidID(userInput, programs);
 		if(userInput==null) {
+			System.out.println("Adding program was canceled.");
 			throw new Exception();
 		}
 		program.setProgramID(userInput);
