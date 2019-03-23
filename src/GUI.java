@@ -47,11 +47,13 @@ public class GUI extends Application{
   //program selected to edit saved for editing scene
   Program programToEdit;
 
+  @Override
   public void start(Stage primaryStage){
 
     //gridpane and scene for the main menu
 
     GridPane menuGrid = new GridPane();
+    menuGrid.setStyle("-fx-background-color:#85c124;");   //change color of background with color hex
     menuGrid.setHgap(10);
     menuGrid.setVgap(10);
     menuGrid.setPadding(new Insets(20,20,20,20));
