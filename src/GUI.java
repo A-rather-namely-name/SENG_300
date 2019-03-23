@@ -49,6 +49,27 @@ public class GUI extends Application{
 
   @Override
   public void start(Stage primaryStage){
+    try {
+      String fileName = "programSaveGUI.dat";
+      File load = new File(fileName);
+      FileInputStream in = new FileInputStream(load);
+      ObjectInputStream reader = new ObjectInputStream(in);
+      ArrayList<Program> loadedProgram = (ArrayList<Program>)reader.readObject();
+      reader.close();
+      programList = new ArrayList<Program>(loadedProgram);
+      fileName = "courseSaveGUI.dat";
+      load = new File(fileName);
+      in = new FileInputStream(load);
+      reader = new ObjectInputStream(in);
+      ArrayList<Course> loadedCourse = (ArrayList<Course>)reader.readObject();
+      reader.close();
+      courseList = new ArrayList<Course>(loadedCourse);
+      in.close();
+    } catch (IOException e) {
+      System.out.println("Failed to load. ");
+    } catch (ClassNotFoundException e) {
+      System.out.println("Class cannot be found. ");
+    }
 
     //gridpane and scene for the main menu
 
@@ -356,6 +377,22 @@ public class GUI extends Application{
     quitButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
         //file i/o stuff??
+        try {
+          String fileName = "programSaveGUI.dat";
+          FileOutputStream out = new FileOutputStream(fileName);
+          out.write(("").getBytes());
+          ObjectOutputStream writer = new ObjectOutputStream(out);
+          writer.writeObject(programList);
+          out.close();
+          fileName = "courseSaveGUI.dat";
+          out = new FileOutputStream(fileName);
+          writer = new ObjectOutputStream(out);
+          out.write(("").getBytes());
+          writer.writeObject(courseList);
+          out.close();
+        } catch (IOException e) {
+          System.out.println("Failed to save. ");
+        }
         System.exit(0);
       }
     });

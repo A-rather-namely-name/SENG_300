@@ -103,10 +103,10 @@ public class FileIO {
                   if (load.exists()) {
                           try {
                                   FileInputStream in = new FileInputStream(load);
-                                  ObjectInputStream readProgram = new ObjectInputStream(in);
+                                  ObjectInputStream reader = new ObjectInputStream(in);
 
-                                  ArrayList<Program> loadedProgram = (ArrayList<Program>)readProgram.readObject();
-                                  readProgram.close();
+                                  ArrayList<Program> loadedProgram = (ArrayList<Program>)reader.readObject();
+                                  reader.close();
                                   System.out.println("Progams loaded.");
                                   return(loadedProgram);
                           } catch (FileNotFoundException e) {
@@ -142,12 +142,12 @@ public class FileIO {
                   if (load.exists()) {
                           try {
                                   FileInputStream in = new FileInputStream(load);
-                                  ObjectInputStream readProgram = new ObjectInputStream(in);
+                                  ObjectInputStream reader = new ObjectInputStream(in);
 
-                                  ArrayList<Course> loadedProgram = (ArrayList<Course>)readProgram.readObject();
-                                  readProgram.close();
+                                  ArrayList<Course> loadedCourse = (ArrayList<Course>)reader.readObject();
+                                  reader.close();
                                   System.out.println("Courses loaded.");
-                                  return(loadedProgram);
+                                  return(loadedCourse);
                           } catch (FileNotFoundException e) {
                                   createOrLoadFile = false;
                                   System.out.println("Problem with input/output.");
