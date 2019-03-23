@@ -14,6 +14,8 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.scene.input.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
 import javafx.event.ActionEvent;
@@ -79,33 +81,42 @@ public class GUI extends Application{
     menuGrid.setVgap(10);
     menuGrid.setPadding(new Insets(20,20,20,20));
 
+    Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
+    ImageView iv1 = new ImageView();
+    iv1.setImage(image1);
+    iv1.setFitWidth(150);
+    iv1.setPreserveRatio(true);
+    iv1.setSmooth(true);
+    iv1.setCache(true);
+    menuGrid.add(iv1, 0, 0);
+
     Button listProgramsButton = new Button();
     listProgramsButton.setText("View Programs");
-    menuGrid.add(listProgramsButton, 0, 0);
+    menuGrid.add(listProgramsButton, 0, 1);
 
     Button addProgramButton = new Button();
     addProgramButton.setText("Add a New Program");
-    menuGrid.add(addProgramButton, 0, 1);
+    menuGrid.add(addProgramButton, 0, 2);
 
     Button editProgramButton = new Button();
     editProgramButton.setText("Edit a Program");
-    menuGrid.add(editProgramButton, 0, 2);
+    menuGrid.add(editProgramButton, 0, 3);
 
     Button listCoursesButton = new Button();
     listCoursesButton.setText("View Courses");
-    menuGrid.add(listCoursesButton, 1, 0);
+    menuGrid.add(listCoursesButton, 1, 1);
 
     Button editCourseButton = new Button();
     editCourseButton.setText("Edit a Course");
-    menuGrid.add(editCourseButton, 1, 2);
+    menuGrid.add(editCourseButton, 1, 3);
 
     Button addCourseButton = new Button();
     addCourseButton.setText("Add a New Course");
-    menuGrid.add(addCourseButton, 1, 1);
+    menuGrid.add(addCourseButton, 1, 2);
 
     Button quitButton = new Button();
     quitButton.setText("Exit and Save");
-    menuGrid.add(quitButton, 0, 3);
+    menuGrid.add(quitButton, 0, 4);
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
     primaryStage.setTitle("Program and Course Management");
