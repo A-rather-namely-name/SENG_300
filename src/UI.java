@@ -40,10 +40,14 @@ public class UI
 				case 2: try {
 					addProgram();
 				} catch (Exception e) {
-					// Prob say somthing
+					System.out.println("Adding program was canceled.");
 				}
 						break;
-				case 3: editProgram();
+				case 3: try {
+					editProgram();
+				} catch (Exception e) {
+					System.out.println("Editing program was canceled.");
+				}
 						break;
 				case 4:
 					System.out.println("Checking for program save ...");
@@ -100,7 +104,6 @@ public class UI
 		userInput = input.nextLine();
 		userInput=Checks.VlaidID(userInput, programs);
 		if(userInput==null) {
-			System.out.println("Adding program was canceled.");
 			throw new Exception();
 		}
 		program.setProgramID(userInput);
@@ -108,6 +111,10 @@ public class UI
 		//Get Title for program
 		System.out.println("\nEnter the title of the program");
 		userInput = input.nextLine();
+		userInput=Checks.VlaidTitle(userInput, programs);
+		if(userInput==null) {
+			throw new Exception();
+		}
 		program.setProgramTitle(userInput);
 
 		//Get description for program
@@ -143,7 +150,7 @@ public class UI
 	}
 
 	//Edit a program
-	public void editProgram()
+	public void editProgram() throws Exception
 	{
 		int selection;
 		String programToEdit;
@@ -207,11 +214,22 @@ public class UI
 				//Change ID
 				case 1: System.out.println("\nEnter a new ID\n");
 						userInput = input.nextLine();
+						userInput=Checks.VlaidID(userInput, programs);
+						if(userInput==null) {
+							System.out.println("Adding program was canceled.");
+							throw new Exception();
+						}
 						currentProgram.setProgramID(userInput);
 						break;
 				//Change Title
 				case 2: System.out.println("\nEnter a new Title\n");
 						userInput = input.nextLine();
+						System.out.println("\nEnter the title of the program");
+						userInput = input.nextLine();
+						userInput=Checks.VlaidTitle(userInput, programs);
+						if(userInput==null) {
+							throw new Exception();
+						}
 						currentProgram.setProgramTitle(userInput);
 						break;
 				//Change Description
