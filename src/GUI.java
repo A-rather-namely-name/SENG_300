@@ -25,6 +25,7 @@ import javafx.scene.layout.BackgroundFill;
 import java.io.*;
 import java.util.*;
 import javafx.geometry.*;
+import javafx.scene.control.*;
 
 public class GUI extends Application{
 
@@ -188,16 +189,30 @@ public class GUI extends Application{
     Label departLbl = new Label("Enter the Departments the Program Belongs to Separated by Commas");
     TextField departTxt = new TextField();
 
-    Label electLbl = new Label("Enter the Elective Courses the Program Offers Separated by Commas");
-    TextField electTxt = new TextField();
+    Label electLbl = new Label("Choose the Elective Courses the Program Offers");
+    MenuButton menuButton = new MenuButton();
+    for (int i = 0; i < courseList.size(); i++){
+      Course currentCourse = courseList.get(i);
+      String s = currentCourse.get_title();
+      CustomMenuItem item0 = new CustomMenuItem(new CheckBox(s));
+      item0.setHideOnClick(false);
+      menuButton.getItems().add(item0);
+    }
 
-    Label requireLbl = new Label("Enter the Required Courses of the Program Separated by Commas");
-    TextField requireTxt = new TextField();
+    Label requireLbl = new Label("Choose the Required Courses of the Program");
+    MenuButton menuButton2 = new MenuButton();
+    for (int i = 0; i < courseList.size(); i++){
+      Course currentCourse = courseList.get(i);
+      String s = currentCourse.get_title();
+      CustomMenuItem item0 = new CustomMenuItem(new CheckBox(s));
+      item0.setHideOnClick(false);
+      menuButton2.getItems().add(item0);
+    }
 
     Button enterNewProgramButton = new Button();
     enterNewProgramButton.setText("Add New Program");
 
-    addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, electTxt, requireLbl, requireTxt, enterNewProgramButton);
+    addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton);
 
     Scene addProgramScene = new Scene(addProgramBox, 500, 500);
 
@@ -328,7 +343,7 @@ public class GUI extends Application{
         String[] departments = departTxt.getText().split(", ");
     		for (String s: departments)
     			program.addDepartment(s);
-
+        /*
         String[] electives = electTxt.getText().split(", ");
       	for (String s: electives)
       		program.add_Elective(s);
@@ -336,6 +351,17 @@ public class GUI extends Application{
         String[] requiredCourses = requireTxt.getText().split(", ");
       	for (String s: requiredCourses)
       		program.addRequiredCourses(s);
+          */
+
+        /*for (int i = 0; i < courseList.size(); i++){
+          //if (checkBox.isSelected()){
+            item0
+          }
+        }*/
+
+
+
+
 
         programList.add(program);
 
@@ -449,38 +475,6 @@ public class GUI extends Application{
         for (String s: required)
           viewRequire = viewRequire + s;
 
-        //this is the exact same VBox and scene that was already created
-        //it is here again so that the textfields contain the components of the program to be edited
-        //im sure there is a better way to do this, but idk how, this works for now
-        //with this bit not commented out however, the submitEditButton will not work
-        /*VBox editThisProgramBox = new VBox();
-        editThisProgramBox.setAlignment(Pos.CENTER);
-        editThisProgramBox.setSpacing(10);
-
-        Label editidLbl = new Label("Edit ID of the Program");
-        TextField editidTxt = new TextField(viewID);
-
-        Label edittitleLbl = new Label("Edit Title of the Program");
-        TextField edittitleTxt = new TextField(viewTitle);
-
-        Label editdescLbl = new Label("Edit Description of the Program");
-        TextField editdescTxt = new TextField(viewDesc);
-
-        Label editdepartLbl = new Label("Edit the Departments the Program Belongs to Separated by Commas");
-        TextField editdepartTxt = new TextField(viewDepart);
-
-        Label editelectLbl = new Label("Edit the Elective Courses the Program Offers Separated by Commas");
-        TextField editelectTxt = new TextField(viewElect);
-
-        Label editrequireLbl = new Label("Edit the Required Courses of the Program Separated by Commas");
-        TextField editrequireTxt = new TextField(viewRequire);
-
-        Button submitEditButton = new Button();
-        submitEditButton.setText("Submit Edits");
-
-        editThisProgramBox.getChildren().addAll(editidLbl, editidTxt, edittitleLbl, edittitleTxt, editdescLbl, editdescTxt, editdepartLbl, editdepartTxt, editelectLbl, editelectTxt, editrequireLbl, editrequireTxt, submitEditButton);
-
-        Scene editThisProgramScene = new Scene(editThisProgramBox, 500, 500);*/
 
         start(primaryStage);start(primaryStage);start(primaryStage);
 
