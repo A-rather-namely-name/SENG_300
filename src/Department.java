@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Department
 {
 	String name;
@@ -19,7 +21,7 @@ public class Department
 		programs.remove(p);
 	}
 	
-	public ArrayList<Program>() getPrograms()
+	public ArrayList<Program> getPrograms()
 	{
 		return programs;
 	}

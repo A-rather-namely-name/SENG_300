@@ -1,34 +1,17 @@
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.text.Font;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.animation.AnimationTimer;
-import javafx.geometry.Pos;
+import javafx.application.*;
+import javafx.scene.*;
+import javafx.stage.*;
+import javafx.event.*;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
-import javafx.scene.input.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.canvas.Canvas;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import java.io.*;
 import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 
 public class GUI extends Application{
-
+	private boolean load = true;
   //standard window dimensions
   private int winX = 500;
   private int winY = 300;
@@ -52,7 +35,8 @@ public class GUI extends Application{
 
   @Override
   public void start(Stage primaryStage){
-    try {
+    if(load) {
+	  try {
       String fileName = "programSaveGUI.dat";
       File load = new File(fileName);
       FileInputStream in = new FileInputStream(load);
@@ -73,7 +57,8 @@ public class GUI extends Application{
     } catch (ClassNotFoundException e) {
       System.out.println("Class cannot be found. ");
     }
-
+	  load=false;
+    }
     //gridpane and scene for the main menu
 
     GridPane menuGrid = new GridPane();
