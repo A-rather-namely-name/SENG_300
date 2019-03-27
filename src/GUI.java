@@ -1,33 +1,16 @@
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.text.Font;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.animation.AnimationTimer;
-import javafx.geometry.Pos;
+import javafx.application.*;
+import javafx.scene.*;
+import javafx.stage.*;
+import javafx.event.*;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
-import javafx.scene.input.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.canvas.Canvas;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import java.io.*;
 import java.util.*;
 import javafx.geometry.*;
 
 public class GUI extends Application{
-
+	private boolean load = true;
   //standard window dimensions
   private int winX = 500;
   private int winY = 300;
@@ -51,7 +34,8 @@ public class GUI extends Application{
 
   @Override
   public void start(Stage primaryStage){
-    try {
+    if(load) {
+	  try {
       String fileName = "programSaveGUI.dat";
       File load = new File(fileName);
       FileInputStream in = new FileInputStream(load);
@@ -72,7 +56,8 @@ public class GUI extends Application{
     } catch (ClassNotFoundException e) {
       System.out.println("Class cannot be found. ");
     }
-
+	  load=false;
+    }
     //gridpane and scene for the main menu
 
     GridPane menuGrid = new GridPane();
@@ -320,25 +305,33 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
 
         Program program = new Program();
-
-        program.setProgramID(idTxt.getText());
-        program.setProgramTitle(titleTxt.getText());
-        program.setProgramDesc(descTxt.getText());
-
-        String[] departments = departTxt.getText().split(", ");
-    		for (String s: departments)
-    			program.addDepartment(s);
-
-        String[] electives = electTxt.getText().split(", ");
-      	for (String s: electives)
-      		program.add_Elective(s);
-
-        String[] requiredCourses = requireTxt.getText().split(", ");
-      	for (String s: requiredCourses)
-      		program.addRequiredCourses(s);
-
-        programList.add(program);
-
+        String id=idTxt.getText();
+        String title=titleTxt.getText();
+        
+        id=Checks.VlaidID(id, programList);
+        title=Checks.VlaidTitle(title, programList);
+		if(id==null || title==null) {
+			Checks.canceled();
+			//throw new Exception();
+		}else {
+			program.setProgramID(id);
+			program.setProgramTitle(title);
+			program.setProgramDesc(descTxt.getText());
+			
+			String[] departments = departTxt.getText().split(", ");
+				for (String s: departments)
+					program.addDepartment(s);
+			
+			String[] electives = electTxt.getText().split(", ");
+			for (String s: electives)
+				program.add_Elective(s);
+			
+			String[] requiredCourses = requireTxt.getText().split(", ");
+			for (String s: requiredCourses)
+				program.addRequiredCourses(s);
+			
+			programList.add(program);
+		}
         start(primaryStage);
       }
     });

@@ -6,6 +6,9 @@ public class Checks {
 	public static String VlaidID(String userInput, ArrayList<Program> programs) {
 		boolean valid =true;
 		String msg="";
+		if(userInput == null) {
+			return null;
+		}
 		if(userInput.isEmpty()) {
 			valid=false;
 			msg="ID cannot be empty.";
@@ -34,6 +37,9 @@ public class Checks {
 	public static String VlaidTitle(String userInput, ArrayList<Program> programs) {
 		boolean valid =true;
 		String msg="";
+		if(userInput == null) {
+			return null;
+		}
 		if(userInput.isEmpty()) {
 			valid=false;
 			msg="Title cannot be empty.";
@@ -58,5 +64,9 @@ public class Checks {
 		    userInput=Checks.VlaidTitle(userInput, programs);
 			return userInput;
 		}
+	}
+
+	public static void canceled() {
+		JOptionPane.showMessageDialog(null, "Process canceled.");
 	}
 }
