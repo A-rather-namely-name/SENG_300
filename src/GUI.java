@@ -258,7 +258,7 @@ public class GUI extends Application{
 
 
 
-    //vbox and scene for adding a program
+    //vbox and scene for adding a course
 
     VBox addCourseBox = new VBox();
     addCourseBox.setAlignment(Pos.CENTER);
