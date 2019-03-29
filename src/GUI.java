@@ -41,10 +41,10 @@ public class GUI extends Application{
   private String viewCourseYear = "";
   private String viewCoursePreReqs = "";
   private String viewCourseMutExs = "";
-  
+
   //program selected to edit saved for editing scene
   Program programToEdit;
-  
+
   //Course selected to be edited
   Course courseToEdit;
 
@@ -188,10 +188,16 @@ public class GUI extends Application{
 
     Label departLbl = new Label("Enter the Departments the Program Belongs to Separated by Commas");
     TextField departTxt = new TextField();
-
+/*
     Label electLbl = new Label("Choose the Elective Courses the Program Offers");
     MenuButton menuButton = new MenuButton();
+*/
+		Label electLbl = new Label("Enter the Elective Courses the Program Offers Separated by Commas");
+    TextField electTxt = new TextField();
 
+    Label requireLbl = new Label("Enter the Required Courses of the Program Separated by Commas");
+    TextField requireTxt = new TextField();
+/*
 		for (int i = 0; i < courseList.size(); i++){
 			Course currentCourse = courseList.get(i);
 			String s = currentCourse.get_title();
@@ -213,7 +219,7 @@ public class GUI extends Application{
       item0.setHideOnClick(false);
       menuButton.getItems().add(item0);
     }*/
-
+/*
     Label requireLbl = new Label("Choose the Required Courses of the Program");
     MenuButton menuButton2 = new MenuButton();
 		for (int i = 0; i < courseList.size(); i++){
@@ -239,7 +245,8 @@ public class GUI extends Application{
     Button enterNewProgramButton = new Button();
     enterNewProgramButton.setText("Add New Program");
 
-    addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton);
+    //addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton);
+		addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, electTxt, requireLbl, requireTxt, enterNewProgramButton);
 
     Scene addProgramScene = new Scene(addProgramBox, 500, 500);
 
@@ -332,11 +339,11 @@ public class GUI extends Application{
     Scene addCourseScene = new Scene(addCourseBox, 500, 500);
 
 
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	//vbox and scene for choosing which course to edit
 
@@ -361,12 +368,12 @@ public class GUI extends Application{
 
     Scene editCourseScene = new Scene(editCourseBox, winX, winY);
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
     //vbox and scene where actual editing of course happens
 
     VBox editThisCourseBox = new VBox();
@@ -396,18 +403,18 @@ public class GUI extends Application{
 
     editThisCourseBox.getChildren().addAll(editCourseIDLbl, editCourseIDTxt, editCourseTitleLbl, editCourseTitleTxt, editCourseDescLbl, editCourseDescTxt, editCourseYearLbl, editCourseYearTxt, editCoursePreReqLbl, editCoursePreReqTxt, editCourseMutExLbl, editCourseMutExTxt, submitCourseEditButton);
 
-    Scene editThisCourseScene = new Scene(editThisCourseBox, 500, 500);	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    Scene editThisCourseScene = new Scene(editThisCourseBox, 500, 500);
+
+
+
+
+
+
+
+
+
+
+
 
     //all the button actions
 
@@ -437,6 +444,15 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
 
         Program program = new Program();
+				String id=idTxt.getText();
+				String title=titleTxt.getText();
+
+				id=Checks.VlaidID(id, programList);
+				title=Checks.VlaidTitle(title, programList);
+				if(id==null || title==null) {
+				Checks.canceled();
+				//throw new Exception();
+				}else {
 
         program.setProgramID(idTxt.getText());
         program.setProgramTitle(titleTxt.getText());
@@ -446,6 +462,16 @@ public class GUI extends Application{
     		for (String s: departments)
     			program.addDepartment(s);
 
+					String[] electives = electTxt.getText().split(", ");
+					for (String s: electives)
+						program.add_Elective(s);
+
+					String[] requiredCourses = requireTxt.getText().split(", ");
+					for (String s: requiredCourses)
+						program.addRequiredCourses(s);
+
+					//programList.add(program);
+			/*
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
 					String s = currentCourse.get_title();
@@ -463,7 +489,7 @@ public class GUI extends Application{
 						program.addRequiredCourses(s);
 					}
 				}
-
+				*/
 
 				/*
 				System.out.println(menuButton.getItems());
@@ -493,8 +519,8 @@ public class GUI extends Application{
 
 
 
-        programList.add(program);
-
+        	programList.add(program);
+			}
         start(primaryStage);
       }
     });
@@ -542,8 +568,12 @@ public class GUI extends Application{
 
     //this button exits the program, I'm guessing this button could also be when file i/o is implemented
     quitButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
       public void handle(ActionEvent event){
-        //file i/o stuff??
+        final Stage overwrite = new Stage();
+				overwrite.setTitle("Confirmation to Overwrite");
+				//overwrite.setScene(new Scene(root, 450, 450));
+				overwrite.show();
         try {
           String fileName = "programSaveGUI.dat";
           FileOutputStream out = new FileOutputStream(fileName);
@@ -714,9 +744,9 @@ public class GUI extends Application{
         start(primaryStage);
       }
     });
-	
 
-	
+
+
     //this button changes the scene to the edit course scene
     editCourseButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
@@ -764,7 +794,7 @@ public class GUI extends Application{
 		editCourseTitleTxt.setText(courseToEdit.get_title());
 		editCourseDescTxt.setText(courseToEdit.get_descr());
 		editCourseYearTxt.setText(courseToEdit.get_year());
-		
+
 		//Comma separated fields
 		String prereqString;
 		String mutExString;
@@ -798,7 +828,7 @@ public class GUI extends Application{
         courseToEdit.set_title(editCourseTitleTxt.getText());
         courseToEdit.set_descr(editCourseDescTxt.getText());
 		courseToEdit.set_year(editCourseYearTxt.getText());
-		
+
         courseToEdit.removeAllPreReqs();
         courseToEdit.removeAllMutEx();
 
@@ -812,6 +842,6 @@ public class GUI extends Application{
 
         start(primaryStage);
       }
-    });	
+    });
   }
 }
