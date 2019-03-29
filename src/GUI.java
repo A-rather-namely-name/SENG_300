@@ -22,6 +22,10 @@ public class GUI extends Application{
   //list of courses
   private ArrayList<Course> courseList = new ArrayList<Course>();
 
+	private Map<String, CheckBox> electivesMap = new HashMap<String, CheckBox>();
+	private Map<String, CheckBox> requiredMap = new HashMap<String, CheckBox>();
+
+
   //strings of program components, used to display in the text fields during editing and possibly to view program
   private String viewID = "";
   private String viewTitle = "";
@@ -176,23 +180,50 @@ public class GUI extends Application{
 
     Label electLbl = new Label("Choose the Elective Courses the Program Offers");
     MenuButton menuButton = new MenuButton();
-    for (int i = 0; i < courseList.size(); i++){
+
+		for (int i = 0; i < courseList.size(); i++){
+			Course currentCourse = courseList.get(i);
+			String s = currentCourse.get_title();
+			//String courseName = new String(s);
+			CheckBox courseName = new CheckBox(s);
+			CustomMenuItem item1 = new CustomMenuItem(courseName);
+
+			electivesMap.put(s, courseName);
+			item1.setHideOnClick(false);
+			menuButton.getItems().add(item1);
+		}
+
+
+
+    /*for (int i = 0; i < courseList.size(); i++){
       Course currentCourse = courseList.get(i);
       String s = currentCourse.get_title();
       CustomMenuItem item0 = new CustomMenuItem(new CheckBox(s));
       item0.setHideOnClick(false);
       menuButton.getItems().add(item0);
-    }
+    }*/
 
     Label requireLbl = new Label("Choose the Required Courses of the Program");
     MenuButton menuButton2 = new MenuButton();
+		for (int i = 0; i < courseList.size(); i++){
+			Course currentCourse = courseList.get(i);
+			String s = currentCourse.get_title();
+			//String courseName = new String(s);
+			CheckBox courseName = new CheckBox(s);
+			CustomMenuItem item1 = new CustomMenuItem(courseName);
+
+			requiredMap.put(s, courseName);
+			item1.setHideOnClick(false);
+			menuButton2.getItems().add(item1);
+		}
+		/*
     for (int i = 0; i < courseList.size(); i++){
       Course currentCourse = courseList.get(i);
       String s = currentCourse.get_title();
       CustomMenuItem item0 = new CustomMenuItem(new CheckBox(s));
       item0.setHideOnClick(false);
       menuButton2.getItems().add(item0);
-    }
+    }*/
 
     Button enterNewProgramButton = new Button();
     enterNewProgramButton.setText("Add New Program");
@@ -291,7 +322,6 @@ public class GUI extends Application{
 
 
 
-
     //all the button actions
 
     //this button changes to the list programs scene
@@ -328,6 +358,34 @@ public class GUI extends Application{
         String[] departments = departTxt.getText().split(", ");
     		for (String s: departments)
     			program.addDepartment(s);
+
+				for (int i = 0; i < courseList.size(); i++){
+					Course currentCourse = courseList.get(i);
+					String s = currentCourse.get_title();
+					CheckBox courseToAdd = electivesMap.get(s);
+					if (courseToAdd.isSelected()){
+						program.add_Elective(s);
+					}
+				}
+
+				for (int i = 0; i < courseList.size(); i++){
+					Course currentCourse = courseList.get(i);
+					String s = currentCourse.get_title();
+					CheckBox courseToAdd = requiredMap.get(s);
+					if (courseToAdd.isSelected()){
+						program.addRequiredCourses(s);
+					}
+				}
+
+
+				/*
+				System.out.println(menuButton.getItems());
+				menuButton.getItems();
+				if (coursename.isSelected()){
+					System.out.println("Course 1 is selected");
+				} else {
+					System.out.println("Not selected");
+				}*/
         /*
         String[] electives = electTxt.getText().split(", ");
       	for (String s: electives)
