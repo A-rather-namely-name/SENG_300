@@ -94,6 +94,11 @@ public class Course implements Serializable {
 		//save?
 	}
 
+	public ArrayList<String> get_mutually_exclusive()
+	{
+		return mutually_exclusive;
+	}	
+	
 	public void add_pre_req(String name)
 	{
 		pre_req.add(name);
@@ -132,6 +137,20 @@ public class Course implements Serializable {
 		//save?
 	}
 
+	public ArrayList<String> get_pre_reqs()
+	{
+		return pre_req;
+	}
+
+	public void removeAllPreReqs(){
+		pre_req.clear();
+	}
+
+	public void removeAllMutEx(){
+		mutually_exclusive.clear();
+	}
+
+	
 	public void displayCourse()
 	{
 		System.out.println("\nID: " + get_id());

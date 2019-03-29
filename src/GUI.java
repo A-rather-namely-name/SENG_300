@@ -34,8 +34,19 @@ public class GUI extends Application{
   private String viewElect = "";
   private String viewRequire = "";
 
+  //strings of course components, used to display in the text fields during editing and possibly to view course
+  private String viewCourseID = "";
+  private String viewCourseTitle = "";
+  private String viewCourseDesc = "";
+  private String viewCourseYear = "";
+  private String viewCoursePreReqs = "";
+  private String viewCourseMutExs = "";
+  
   //program selected to edit saved for editing scene
   Program programToEdit;
+  
+  //Course selected to be edited
+  Course courseToEdit;
 
   @Override
   public void start(Stage primaryStage){
@@ -321,6 +332,82 @@ public class GUI extends Application{
     Scene addCourseScene = new Scene(addCourseBox, 500, 500);
 
 
+	
+	
+	
+	
+	
+
+	//vbox and scene for choosing which course to edit
+
+    VBox editCourseBox = new VBox();
+    editCourseBox.setAlignment(Pos.CENTER);
+    editCourseBox.setSpacing(10);
+
+    ChoiceBox<String> editCourseListChoiceBox = new ChoiceBox<String>();
+    for (int i = 0; i < courseList.size(); i++){
+      Course currentCourse = courseList.get(i);
+      String s = currentCourse.get_id();
+      editCourseListChoiceBox.getItems().add(s);
+    }
+
+    Button editThisCourseButton = new Button();
+    editThisCourseButton.setText("Edit Course");
+
+    Button editCourseBackButton = new Button();
+    editCourseBackButton.setText("Back to Menu");
+
+    editCourseBox.getChildren().addAll(editCourseListChoiceBox, editThisCourseButton, editCourseBackButton);
+
+    Scene editCourseScene = new Scene(editCourseBox, winX, winY);
+
+	
+	
+	
+	
+	
+	
+    //vbox and scene where actual editing of course happens
+
+    VBox editThisCourseBox = new VBox();
+    editThisCourseBox.setAlignment(Pos.CENTER);
+    editThisCourseBox.setSpacing(10);
+
+    Label editCourseIDLbl = new Label("Edit ID of the Course");
+    TextField editCourseIDTxt = new TextField();
+
+    Label editCourseTitleLbl = new Label("Edit Title of the Course");
+    TextField editCourseTitleTxt = new TextField();
+
+    Label editCourseDescLbl = new Label("Edit Description of the Course");
+    TextField editCourseDescTxt = new TextField();
+
+    Label editCourseYearLbl = new Label("Edit Year of the Course");
+    TextField editCourseYearTxt = new TextField();
+
+    Label editCoursePreReqLbl = new Label("Edit the Prerequisite Courses, Separated by Commas");
+    TextField editCoursePreReqTxt = new TextField();
+
+    Label editCourseMutExLbl = new Label("Edit the Mutually Exclusive Courses, Separated by Commas");
+    TextField editCourseMutExTxt = new TextField();
+
+    Button submitCourseEditButton = new Button();
+    submitCourseEditButton.setText("Submit Edits");
+
+    editThisCourseBox.getChildren().addAll(editCourseIDLbl, editCourseIDTxt, editCourseTitleLbl, editCourseTitleTxt, editCourseDescLbl, editCourseDescTxt, editCourseYearLbl, editCourseYearTxt, editCoursePreReqLbl, editCoursePreReqTxt, editCourseMutExLbl, editCourseMutExTxt, submitCourseEditButton);
+
+    Scene editThisCourseScene = new Scene(editThisCourseBox, 500, 500);	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
     //all the button actions
 
@@ -612,6 +699,7 @@ public class GUI extends Application{
         course.set_id(courseIDTxt.getText());
         course.set_title(courseTitleTxt.getText());
         course.set_descr(courseDescTxt.getText());
+		course.set_year(courseYearTxt.getText());
 
         String[] prereqs = coursePreReqTxt.getText().split(", ");
     		for (String s: prereqs)
@@ -626,5 +714,104 @@ public class GUI extends Application{
         start(primaryStage);
       }
     });
+	
+
+	
+    //this button changes the scene to the edit course scene
+    editCourseButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(editCourseScene);
+      }
+    });
+
+    //this button changes the scene from the edit course to the main menu
+    editCourseBackButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(menuScene);
+      }
+    });
+
+    //this button takes the selected course from the choice box, and puts the components of the course into variables to be used in the edit this course scene, also switches scenes to edit this course scene
+    editThisCourseButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+
+        String currentCourse = editCourseListChoiceBox.getValue();
+        for(int i = 0 ; i < courseList.size() ; i++){
+          if(courseList.get(i).get_id() == currentCourse){
+            courseToEdit = courseList.get(i);
+            viewCourseID = courseList.get(i).get_id();
+
+            viewCourseTitle = courseList.get(i).get_title();
+            viewCourseDesc = courseList.get(i).get_descr();
+			viewCourseYear = courseList.get(i).get_year();
+          }
+        }
+
+        ArrayList<String> prereqs = courseToEdit.get_pre_reqs();
+        for (String s: prereqs)
+          viewCoursePreReqs = viewCoursePreReqs + s;
+
+        ArrayList<String> mutEx = courseToEdit.get_mutually_exclusive();
+        for (String s: mutEx)
+          viewCourseMutExs = viewCourseMutExs + s;
+
+        start(primaryStage);start(primaryStage);start(primaryStage);
+
+		//Auto fill field with current values
+
+		//Simple fields: ID, Titile, Description
+		editCourseIDTxt.setText(courseToEdit.get_id());
+		editCourseTitleTxt.setText(courseToEdit.get_title());
+		editCourseDescTxt.setText(courseToEdit.get_descr());
+		editCourseYearTxt.setText(courseToEdit.get_year());
+		
+		//Comma separated fields
+		String prereqString;
+		String mutExString;
+
+		StringJoiner prereqJoiner = new StringJoiner(",");
+		StringJoiner mutExJoiner = new StringJoiner(",");
+
+		//Pre Reqs
+		for (String s: courseToEdit.get_pre_reqs())
+			prereqJoiner.add(s);
+		prereqString = prereqJoiner.toString();
+
+		editCoursePreReqTxt.setText(prereqString);
+
+		//Mutually Exclusive courses
+		for (String s: courseToEdit.get_mutually_exclusive())
+			mutExJoiner.add(s);
+		mutExString = mutExJoiner.toString();
+
+		editCourseMutExTxt.setText(mutExString);
+
+        primaryStage.setScene(editThisCourseScene);
+      }
+    });
+
+    //this button takes the changed inputs and edits the current course, back to menu scene
+    submitCourseEditButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+
+        courseToEdit.set_id(editCourseIDTxt.getText());
+        courseToEdit.set_title(editCourseTitleTxt.getText());
+        courseToEdit.set_descr(editCourseDescTxt.getText());
+		courseToEdit.set_year(editCourseYearTxt.getText());
+		
+        courseToEdit.removeAllPreReqs();
+        courseToEdit.removeAllMutEx();
+
+        String[] preReqs = editCoursePreReqTxt.getText().split(", ");
+    		for (String s: preReqs)
+    			courseToEdit.add_pre_req(s);
+
+        String[] mutEx = editCourseMutExTxt.getText().split(", ");
+      	for (String s: mutEx)
+      		courseToEdit.add_mutually_exclusive(s);
+
+        start(primaryStage);
+      }
+    });	
   }
 }
