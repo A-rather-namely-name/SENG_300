@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 public class GUI extends Application{
 	private boolean load = true;
 	private HashMap<String, String> users = new HashMap<String, String>();
+	private HashMap<String, String> userType = new HashMap<String, String>();
   //standard window dimensions
   private int winX = 600;
   private int winY = 400;
@@ -156,7 +157,37 @@ public class GUI extends Application{
     		Label passwordLbl = new Label("Enter password: ");
     		TextField passwordTxt = new TextField("password");
     		
+    		Label userTypeLbl = new Label("User Type: ");
+    		final ComboBox<String> userTypeDrop = new ComboBox<String>();
+    		userTypeDrop.getItems().addAll("Administrator", "Student");
+    		
     		Button registerButton = new Button("Register");
+    		registerButton.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override
+    			public void handle(ActionEvent event) {
+    				if (!users.containsKey(usernameTxt.getText())) {
+    					users.put(usernameTxt.getText(), passwordTxt.getText());
+    					userType.put(usernameTxt.getText(), userTypeDrop.getValue());
+    				} else {
+    					VBox invalidUsernameBox = new VBox();
+    					invalidUsernameBox.setAlignment(Pos.CENTER);
+    					Label usernameExist = new Label("Username already exists. ");
+    					invalidUsernameBox.getChildren().add(usernameExist);
+    					Scene invalidUsernameScene = new Scene(invalidUsernameBox, 300, 100);
+    					Stage invalidUsernameStage = new Stage();
+    					invalidUsernameStage.setScene(invalidUsernameScene);
+    					invalidUsernameStage.initModality(Modality.APPLICATION_MODAL);
+    					invalidUsernameStage.show();
+    				}
+    				if (userTypeDrop.getValue().equals("Administrator")) {
+    					primaryStage.setScene(menuScene);
+    					primaryStage.show();
+    				} else {
+    					primaryStage.setScene(stdScene);
+    					primaryStage.show();
+    				}
+    			}
+    		});
     		
     		GridPane register = new GridPane();
     		register.setAlignment(Pos.CENTER);
@@ -164,13 +195,15 @@ public class GUI extends Application{
     		register.add(usernameTxt, 1, 0);
     		register.add(passwordLbl, 0, 2);
     		register.add(passwordTxt, 1, 2);
+    		register.add(userTypeLbl, 0, 4);
+    		register.add(userTypeDrop, 1, 4);
     		register.add(registerButton, 0, 6);
     		
     		Scene registerScene = new Scene(register, 450, 250);
     		
     		Stage registerWindow = new Stage();
     		registerWindow.setScene(registerScene);
-    		registerWindow.initModality(Modality.WINDOW_MODAL);
+    		registerWindow.initModality(Modality.APPLICATION_MODAL);
     		registerWindow.initOwner(primaryStage);
     		registerWindow.show();
     		
@@ -180,9 +213,54 @@ public class GUI extends Application{
     oldUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
-    		primaryStage.setTitle("Program and Course Management");
-    	    primaryStage.setScene(menuScene);
-    	    primaryStage.show();	
+    		Label usernameLbl = new Label("Enter username: ");
+    		TextField usernameTxt = new TextField("username");
+    		
+    		Label passwordLbl = new Label("Enter password: ");
+    		TextField passwordTxt = new TextField("password");
+    		
+    		Button loginButton = new Button("Login");
+    		loginButton.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override
+    			public void handle(ActionEvent event) {
+    				if (users.containsKey(usernameTxt.getText())) {
+    					if (users.get(usernameTxt.getText()).equals(passwordTxt.getText())) {
+    						if (userType.get(usernameTxt.getText()).equals("Administrator")) {
+    							primaryStage.setScene(menuScene);
+    	    					primaryStage.show();
+    						} else {
+    							primaryStage.setScene(stdScene);
+    	    					primaryStage.show();
+    						}
+    					} 
+    				} else {
+    					VBox invalidUsernameBox = new VBox();
+    					invalidUsernameBox.setAlignment(Pos.CENTER);
+    					Label usernameExist = new Label("Invalid username/password. ");
+    					invalidUsernameBox.getChildren().add(usernameExist);
+    					Scene invalidUsernameScene = new Scene(invalidUsernameBox, 300, 100);
+    					Stage invalidUsernameStage = new Stage();
+    					invalidUsernameStage.setScene(invalidUsernameScene);
+    					invalidUsernameStage.initModality(Modality.APPLICATION_MODAL);
+    					invalidUsernameStage.show();
+    				}
+    			}
+    		});
+    		GridPane login = new GridPane();
+    		login.setAlignment(Pos.CENTER);
+    		login.add(usernameLbl, 0, 0);
+    		login.add(usernameTxt, 1, 0);
+    		login.add(passwordLbl, 0, 2);
+    		login.add(passwordTxt, 1, 2);
+    		login.add(loginButton, 0, 4);
+    		
+    		Scene loginScene = new Scene(login, 450, 250);
+    		
+    		Stage loginWindow = new Stage();
+    		loginWindow.setScene(loginScene);
+    		loginWindow.initModality(Modality.APPLICATION_MODAL);
+    		loginWindow.initOwner(primaryStage);
+    		loginWindow.show();
     		
     	}
     });
