@@ -139,12 +139,15 @@ public class GUI extends Application{
     		Label passwordLbl = new Label("Enter password: ");
     		TextField passwordTxt = new TextField("password");
     		
+    		Button registerButton = new Button("Register");
+    		
     		GridPane register = new GridPane();
     		register.setAlignment(Pos.CENTER);
     		register.add(usernameLbl, 0, 0);
     		register.add(usernameTxt, 1, 0);
     		register.add(passwordLbl, 0, 2);
     		register.add(passwordTxt, 1, 2);
+    		register.add(registerButton, 0, 6);
     		
     		Scene registerScene = new Scene(register, 450, 250);
     		
@@ -172,7 +175,7 @@ public class GUI extends Application{
     root.setSpacing(20);
     root.getChildren().add(newUser);
     root.getChildren().add(oldUser);
-    Scene loginScene = new Scene(root, 450, 250);
+    Scene loginScene = new Scene(root, 600, 400);
     primaryStage.setScene(loginScene);
     primaryStage.show();
     
