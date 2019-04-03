@@ -61,7 +61,7 @@ public class Checks {
 			frame.setAlwaysOnTop(true);
 			userInput = JOptionPane.showInputDialog(frame, msg+" try again.");
 		    
-		    userInput=Checks.VlaidTitle(userInput, programs);
+		    userInput=Checks.ValidTitle(userInput, programs);
 			return userInput;
 		}
 	}
