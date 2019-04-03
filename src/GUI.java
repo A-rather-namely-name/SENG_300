@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 
 public class GUI extends Application{
 	private boolean load = true;
+	private HashMap<String, String> users = new HashMap<String, String>();
   //standard window dimensions
   private int winX = 500;
   private int winY = 300;
