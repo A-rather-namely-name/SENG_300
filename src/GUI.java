@@ -122,13 +122,30 @@ public class GUI extends Application{
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
     
+    //scene for students
+    GridPane stdGrid = new GridPane();
+    stdGrid.setStyle("-fx-background-color:#85c124;");   //change color of background with color hex
+    stdGrid.setHgap(10);
+    stdGrid.setVgap(10);
+    stdGrid.setPadding(new Insets(20,20,20,20));
+
+    stdGrid.add(iv1, 0, 0);
+
+    Button stdListProgramsButton = new Button("View Programs");
+    stdGrid.add(stdListProgramsButton, 0, 1);
+
+    Button stdListCoursesButton = new Button("View Courses");
+    stdGrid.add(stdListCoursesButton, 1, 1);
     
+    Button stdQuitButton = new Button("Exit and Save");
+    stdGrid.add(quitButton, 0, 2);
+    
+    Scene stdScene = new Scene(stdGrid, winX, winY);
     
     //scene for login
-    Button newUser = new Button();
-    newUser.setText("New User");
-    Button oldUser = new Button();
-    oldUser.setText("Returning User");
+    Button newUser = new Button("New User");
+    Button oldUser = new Button("Returning User");
+    Button student = new Button("Proceed as Student");
     
     newUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
@@ -170,12 +187,22 @@ public class GUI extends Application{
     	}
     });
     
+    student.setOnAction(new EventHandler<ActionEvent>() {
+    	@Override
+    	public void handle(ActionEvent event) {
+    		primaryStage.setTitle("Program and Course Viewer");
+    	    primaryStage.setScene(stdScene);
+    	    primaryStage.show();
+    	}
+    });
+    
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setSpacing(20);
     root.getChildren().add(newUser);
     root.getChildren().add(oldUser);
-    Scene loginScene = new Scene(root, 600, 400);
+    root.getChildren().add(student);
+    Scene loginScene = new Scene(root, winX, winY);
     primaryStage.setScene(loginScene);
     primaryStage.show();
     
