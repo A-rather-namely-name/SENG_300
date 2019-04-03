@@ -14,8 +14,8 @@ public class GUI extends Application{
 	private boolean load = true;
 	private HashMap<String, String> users = new HashMap<String, String>();
   //standard window dimensions
-  private int winX = 500;
-  private int winY = 300;
+  private int winX = 600;
+  private int winY = 400;
 
   //list of programs
   private ArrayList<Program> programList = new ArrayList<Program>();
@@ -133,8 +133,26 @@ public class GUI extends Application{
     newUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
-    		Label usernameTxt = new Label("Enter username: ");
+    		Label usernameLbl = new Label("Enter username: ");
+    		TextField usernameTxt = new TextField("username");
+    		
+    		Label passwordLbl = new Label("Enter password: ");
+    		TextField passwordTxt = new TextField("password");
+    		
     		GridPane register = new GridPane();
+    		register.setAlignment(Pos.CENTER);
+    		register.add(usernameLbl, 0, 0);
+    		register.add(usernameTxt, 1, 0);
+    		register.add(passwordLbl, 0, 2);
+    		register.add(passwordTxt, 1, 2);
+    		
+    		Scene registerScene = new Scene(register, 450, 250);
+    		
+    		Stage registerWindow = new Stage();
+    		registerWindow.setScene(registerScene);
+    		registerWindow.initModality(Modality.WINDOW_MODAL);
+    		registerWindow.initOwner(primaryStage);
+    		registerWindow.show();
     		
     	}
     });
