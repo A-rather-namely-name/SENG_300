@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import javax.swing.*;  
 public class Checks {
 
-	public static String VlaidID(String userInput, ArrayList<Program> programs) {
+	public static String ValidID(String userInput, ArrayList<Program> programs) {
 		boolean valid =true;
 		String msg="";
 		if(userInput == null) {
@@ -29,12 +29,12 @@ public class Checks {
 			frame.setAlwaysOnTop(true);
 			userInput = JOptionPane.showInputDialog(frame, msg+" try again.");
 		    
-		    userInput=Checks.VlaidID(userInput, programs);
+		    userInput=Checks.ValidID(userInput, programs);
 			return userInput;
 		}
 	}
 
-	public static String VlaidTitle(String userInput, ArrayList<Program> programs) {
+	public static String ValidTitle(String userInput, ArrayList<Program> programs) {
 		boolean valid =true;
 		String msg="";
 		if(userInput == null) {

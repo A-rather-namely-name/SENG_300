@@ -448,8 +448,8 @@ public class GUI extends Application{
 				String id=idTxt.getText();
 				String title=titleTxt.getText();
 
-				id=Checks.VlaidID(id, programList);
-				title=Checks.VlaidTitle(title, programList);
+				id=Checks.ValidID(id, programList);
+				title=Checks.ValidTitle(title, programList);
 				if(id==null || title==null) {
 				Checks.canceled();
 				//throw new Exception();
