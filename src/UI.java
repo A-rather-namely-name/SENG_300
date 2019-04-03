@@ -102,7 +102,7 @@ public class UI
 		System.out.println("\nEnter the ID of the program");
 		input.nextLine();
 		userInput = input.nextLine();
-		userInput=Checks.VlaidID(userInput, programs);
+		userInput=Checks.ValidID(userInput, programs);
 		if(userInput==null) {
 			throw new Exception();
 		}
@@ -111,7 +111,7 @@ public class UI
 		//Get Title for program
 		System.out.println("\nEnter the title of the program");
 		userInput = input.nextLine();
-		userInput=Checks.VlaidTitle(userInput, programs);
+		userInput=Checks.ValidTitle(userInput, programs);
 		if(userInput==null) {
 			throw new Exception();
 		}
@@ -214,7 +214,7 @@ public class UI
 				//Change ID
 				case 1: System.out.println("\nEnter a new ID\n");
 						userInput = input.nextLine();
-						userInput=Checks.VlaidID(userInput, programs);
+						userInput=Checks.ValidID(userInput, programs);
 						if(userInput==null) {
 							System.out.println("Adding program was canceled.");
 							throw new Exception();
@@ -226,7 +226,7 @@ public class UI
 						userInput = input.nextLine();
 						System.out.println("\nEnter the title of the program");
 						userInput = input.nextLine();
-						userInput=Checks.VlaidTitle(userInput, programs);
+						userInput=Checks.ValidTitle(userInput, programs);
 						if(userInput==null) {
 							throw new Exception();
 						}

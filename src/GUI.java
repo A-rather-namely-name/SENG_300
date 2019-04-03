@@ -121,10 +121,43 @@ public class GUI extends Application{
     menuGrid.add(quitButton, 0, 4);
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
-    primaryStage.setTitle("Program and Course Management");
-    primaryStage.setScene(menuScene);
+    
+    
+    
+    //scene for login
+    Button newUser = new Button();
+    newUser.setText("New User");
+    Button oldUser = new Button();
+    oldUser.setText("Returning User");
+    
+    newUser.setOnAction(new EventHandler<ActionEvent>() {
+    	@Override
+    	public void handle(ActionEvent event) {
+    		Label usernameTxt = new Label("Enter username: ");
+    		GridPane register = new GridPane();
+    		
+    	}
+    });
+    
+    oldUser.setOnAction(new EventHandler<ActionEvent>() {
+    	@Override
+    	public void handle(ActionEvent event) {
+    		primaryStage.setTitle("Program and Course Management");
+    	    primaryStage.setScene(menuScene);
+    	    primaryStage.show();	
+    		
+    	}
+    });
+    
+    VBox root = new VBox();
+    root.setAlignment(Pos.CENTER);
+    root.setSpacing(20);
+    root.getChildren().add(newUser);
+    root.getChildren().add(oldUser);
+    Scene loginScene = new Scene(root, 450, 250);
+    primaryStage.setScene(loginScene);
     primaryStage.show();
-
+    
     //vbox and scene for the viewing programs
 
     VBox listProgramBox = new VBox();
