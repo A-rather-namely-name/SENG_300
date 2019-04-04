@@ -687,7 +687,9 @@ public class GUI extends Application{
 				for (int i = 0; i < programList.size(); i++){
 				      Program currentProgram = programList.get(i);
 				      String s = currentProgram.getProgramID();
-				      programListChoiceBox.getItems().add(s);
+				      if (!programListChoiceBox.getItems().contains(s)) {
+				    	  programListChoiceBox.getItems().add(s);
+				      }
 				    }
 		primaryStage.setScene(menuScene);
       }
