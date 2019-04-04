@@ -68,6 +68,14 @@ public class GUI extends Application{
       ArrayList<Course> loadedCourse = (ArrayList<Course>)reader.readObject();
       reader.close();
       courseList = new ArrayList<Course>(loadedCourse);
+      fileName = "userSaveGUI.dat";
+      load = new File(fileName);
+      in = new FileInputStream(load);
+      reader = new ObjectInputStream(in);
+      ArrayList<HashMap<String, String>> loadedUsers = (ArrayList<HashMap<String, String>>)reader.readObject();
+      reader.close();
+      users = new HashMap<String, String>(loadedUsers.get(0));
+      userType = new HashMap<String, String>(loadedUsers.get(1));
       in.close();
     } catch (IOException e) {
       System.out.println("Failed to load. ");
@@ -160,6 +168,7 @@ public class GUI extends Application{
     		Label userTypeLbl = new Label("User Type: ");
     		final ComboBox<String> userTypeDrop = new ComboBox<String>();
     		userTypeDrop.getItems().addAll("Administrator", "Student");
+    		userTypeDrop.setValue("Student");
     		
     		Button registerButton = new Button("Register");
     		registerButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -168,6 +177,24 @@ public class GUI extends Application{
     				if (!users.containsKey(usernameTxt.getText())) {
     					users.put(usernameTxt.getText(), passwordTxt.getText());
     					userType.put(usernameTxt.getText(), userTypeDrop.getValue());
+    					if (userTypeDrop.getValue().equals("Administrator")) {
+        					Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
+        				    ImageView iv1 = new ImageView();
+        				    iv1.setImage(image1);
+        				    iv1.setFitWidth(150);
+        				    iv1.setPreserveRatio(true);
+        				    iv1.setSmooth(true);
+        				    iv1.setCache(true);
+        				    menuGrid.add(iv1, 0, 0);
+        				    menuGrid.add(quitButton, 0, 4);
+        				    primaryStage.close();
+        					primaryStage.setScene(menuScene);
+        					primaryStage.show();
+        				} else {
+        					primaryStage.close();
+        					primaryStage.setScene(stdScene);
+        					primaryStage.show();
+        				}
     				} else {
     					VBox invalidUsernameBox = new VBox();
     					invalidUsernameBox.setAlignment(Pos.CENTER);
@@ -178,14 +205,7 @@ public class GUI extends Application{
     					invalidUsernameStage.setScene(invalidUsernameScene);
     					invalidUsernameStage.initModality(Modality.APPLICATION_MODAL);
     					invalidUsernameStage.show();
-    				}
-    				if (userTypeDrop.getValue().equals("Administrator")) {
-    					primaryStage.setScene(menuScene);
-    					primaryStage.show();
-    				} else {
-    					primaryStage.setScene(stdScene);
-    					primaryStage.show();
-    				}
+    				}    				
     			}
     		});
     		
@@ -226,9 +246,20 @@ public class GUI extends Application{
     				if (users.containsKey(usernameTxt.getText())) {
     					if (users.get(usernameTxt.getText()).equals(passwordTxt.getText())) {
     						if (userType.get(usernameTxt.getText()).equals("Administrator")) {
+    							Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
+    	    				    ImageView iv1 = new ImageView();
+    	    				    iv1.setImage(image1);
+    	    				    iv1.setFitWidth(150);
+    	    				    iv1.setPreserveRatio(true);
+    	    				    iv1.setSmooth(true);
+    	    				    iv1.setCache(true);
+    	    				    menuGrid.add(iv1, 0, 0);
+    	    				    menuGrid.add(quitButton, 0, 4);
+    	    				    primaryStage.close();
     							primaryStage.setScene(menuScene);
     	    					primaryStage.show();
     						} else {
+    							primaryStage.close();
     							primaryStage.setScene(stdScene);
     	    					primaryStage.show();
     						}
@@ -730,10 +761,6 @@ public class GUI extends Application{
     quitButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
       public void handle(ActionEvent event){
-        final Stage overwrite = new Stage();
-				overwrite.setTitle("Confirmation to Overwrite");
-				//overwrite.setScene(new Scene(root, 450, 450));
-				overwrite.show();
         try {
           String fileName = "programSaveGUI.dat";
           FileOutputStream out = new FileOutputStream(fileName);
@@ -746,6 +773,15 @@ public class GUI extends Application{
           writer = new ObjectOutputStream(out);
           out.write(("").getBytes());
           writer.writeObject(courseList);
+          out.close();
+          fileName = "userSaveGUI.dat";
+          out = new FileOutputStream(fileName);
+          writer = new ObjectOutputStream(out);
+          out.write(("").getBytes());
+          ArrayList<HashMap<String, String>> usersList = new ArrayList<HashMap<String, String>>();
+          usersList.add(users);
+          usersList.add(userType);
+          writer.writeObject(usersList);
           out.close();
         } catch (IOException e) {
           System.out.println("Failed to save. ");
