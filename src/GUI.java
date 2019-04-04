@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 
 public class GUI extends Application{
 	private boolean load = true;
+	private boolean loginCheck = true;
 	private HashMap<String, String> users = new HashMap<String, String>();
 	private HashMap<String, String> userType = new HashMap<String, String>();
   //standard window dimensions
@@ -92,14 +93,6 @@ public class GUI extends Application{
     menuGrid.setVgap(10);
     menuGrid.setPadding(new Insets(20,20,20,20));
 
-    Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
-    ImageView iv1 = new ImageView();
-    iv1.setImage(image1);
-    iv1.setFitWidth(150);
-    iv1.setPreserveRatio(true);
-    iv1.setSmooth(true);
-    iv1.setCache(true);
-    menuGrid.add(iv1, 0, 0);
 
     Button listProgramsButton = new Button();
     listProgramsButton.setText("View Programs");
@@ -128,8 +121,19 @@ public class GUI extends Application{
     Button quitButton = new Button();
     quitButton.setText("Exit and Save");
     menuGrid.add(quitButton, 0, 4);
-
+    
+    Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
+    ImageView iv1 = new ImageView();
+    iv1.setImage(image1);
+    iv1.setFitWidth(150);
+    iv1.setPreserveRatio(true);
+    iv1.setSmooth(true);
+    iv1.setCache(true);
+    menuGrid.add(iv1, 0, 0);
+    
     Scene menuScene = new Scene(menuGrid, winX, winY);
+    primaryStage.setScene(menuScene);
+    primaryStage.show();
 
     //scene for students
     GridPane stdGrid = new GridPane();
@@ -187,6 +191,7 @@ public class GUI extends Application{
         				    iv1.setCache(true);
         				    menuGrid.add(iv1, 0, 0);
         				    menuGrid.add(quitButton, 0, 4);
+        				    loginCheck = false;
         				    primaryStage.close();
         					primaryStage.setScene(menuScene);
         					primaryStage.show();
@@ -255,6 +260,7 @@ public class GUI extends Application{
     	    				    iv1.setCache(true);
     	    				    menuGrid.add(iv1, 0, 0);
     	    				    menuGrid.add(quitButton, 0, 4);
+    	    				    loginCheck = false;
     	    				    primaryStage.close();
     							primaryStage.setScene(menuScene);
     	    					primaryStage.show();
@@ -312,8 +318,10 @@ public class GUI extends Application{
     root.getChildren().add(oldUser);
     root.getChildren().add(student);
     Scene loginScene = new Scene(root, winX, winY);
-    primaryStage.setScene(loginScene);
-    primaryStage.show();
+    if (loginCheck) {
+    	primaryStage.setScene(loginScene);
+        primaryStage.show();
+    }
 
     //vbox and scene for the viewing programs
 
@@ -674,14 +682,14 @@ public class GUI extends Application{
             item0
           }
         }*/
-
-
-
-
-
         	programList.add(program);
 			}
-        start(primaryStage);
+				for (int i = 0; i < programList.size(); i++){
+				      Program currentProgram = programList.get(i);
+				      String s = currentProgram.getProgramID();
+				      programListChoiceBox.getItems().add(s);
+				    }
+		primaryStage.setScene(menuScene);
       }
     });
 
@@ -796,7 +804,8 @@ public class GUI extends Application{
           viewRequire = viewRequire + s;
 
 
-        start(primaryStage);start(primaryStage);start(primaryStage);
+        start(primaryStage);
+        
 
 		//Auto fill field with current values
 
