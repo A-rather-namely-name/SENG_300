@@ -421,8 +421,10 @@ public class GUI extends Application{
 
     Button enterNewProgramButton = new Button();
     enterNewProgramButton.setText("Add New Program");
+    
+    Button addBackButton = new Button("Back to Menu");
 
-    addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton);
+    addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton, addBackButton);
 
     Scene addProgramScene = new Scene(addProgramBox, 500, 500);
 
@@ -614,50 +616,128 @@ public class GUI extends Application{
         primaryStage.setScene(addProgramScene);
       }
     });
+    
+  //this button changes the scene back to the main menu from add program scene
+    addBackButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(menuScene);
+      }
+    });
 
     //this button takes the inputs from the text fields and creates a new program, changes scene back to main menu
     enterNewProgramButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
 
         Program program = new Program();
-				String id=idTxt.getText();
-				String title=titleTxt.getText();
+        boolean idValid = true;
+        boolean titleValid = true;
+        if (idTxt.getText().isEmpty() || idTxt.getText() == null) {
+        	idValid = false;
+        	VBox emptyIDBox = new VBox();
+			emptyIDBox.setAlignment(Pos.CENTER);
+			Label emptyID = new Label("ID cannot be empty. ");
+			emptyIDBox.getChildren().add(emptyID);
+			Scene emptyIDScene = new Scene(emptyIDBox, 300, 100);
+			Stage emptyIDStage = new Stage();
+			emptyIDStage.setScene(emptyIDScene);
+			emptyIDStage.initModality(Modality.APPLICATION_MODAL);
+			emptyIDStage.setAlwaysOnTop(true);
+			emptyIDStage.show();
+        } else {
+        	for (Program p : programList) {
+        		if (p.getProgramID().equals(idTxt.getText())) {
+        			idValid = false;
+        			VBox invalidIDBox = new VBox();
+					invalidIDBox.setAlignment(Pos.CENTER);
+					Label idExist = new Label("Program ID already exists. ");
+					invalidIDBox.getChildren().add(idExist);
+					Scene invalidIDScene = new Scene(invalidIDBox, 300, 100);
+					Stage invalidIDStage = new Stage();
+					invalidIDStage.setScene(invalidIDScene);
+					invalidIDStage.initModality(Modality.APPLICATION_MODAL);
+					invalidIDStage.setAlwaysOnTop(true);
+					invalidIDStage.show();
+        		}
+        	}
+        }
+        if (idValid) {
+        	if (titleTxt.getText().isEmpty() || titleTxt.getText() == null) {
+        		titleValid = false;
+            	VBox emptyTitleBox = new VBox();
+    			emptyTitleBox.setAlignment(Pos.CENTER);
+    			Label emptyTitle = new Label("Title cannot be empty. ");
+    			emptyTitleBox.getChildren().add(emptyTitle);
+    			Scene emptyTitleScene = new Scene(emptyTitleBox, 300, 100);
+    			Stage emptyTitleStage = new Stage();
+    			emptyTitleStage.setScene(emptyTitleScene);
+    			emptyTitleStage.initModality(Modality.APPLICATION_MODAL);
+    			emptyTitleStage.setAlwaysOnTop(true);
+    			emptyTitleStage.show();
+            } else {
+            	for (Program p : programList) {
+            		if (p.getProgramTitle().equals(titleTxt.getText())) {
+            			titleValid = false;
+            			VBox invalidTitleBox = new VBox();
+    					invalidTitleBox.setAlignment(Pos.CENTER);
+    					Label titleExist = new Label("Program title already exists. ");
+    					invalidTitleBox.getChildren().add(titleExist);
+    					Scene invalidTitleScene = new Scene(invalidTitleBox, 300, 100);
+    					Stage invalidTitleStage = new Stage();
+    					invalidTitleStage.setScene(invalidTitleScene);
+    					invalidTitleStage.initModality(Modality.APPLICATION_MODAL);
+    					invalidTitleStage.setAlwaysOnTop(true);
+    					invalidTitleStage.show();
+            		}
+            	}
+            }
+        }
+        if (idValid && titleValid) {
+        	 program.setProgramID(idTxt.getText());
+             program.setProgramTitle(titleTxt.getText());
+             program.setProgramDesc(descTxt.getText());
 
-				id=Checks.ValidID(id, programList);
-				title=Checks.ValidTitle(title, programList);
-				if(id==null || title==null) {
-				Checks.canceled();
+             String[] departments = departTxt.getText().split(", ");
+         		for (String s: departments)
+         			program.addDepartment(s);
+
+
+
+     					//programList.add(program);
+
+     				for (int i = 0; i < courseList.size(); i++){
+     					Course currentCourse = courseList.get(i);
+     					String s = currentCourse.get_title();
+     					CheckBox courseToAdd = electivesMap.get(s);
+     					if (courseToAdd.isSelected()){
+     						program.add_Elective(s);
+     					}
+     				}
+     				for (int i = 0; i < courseList.size(); i++){
+     					Course currentCourse = courseList.get(i);
+     					String s = currentCourse.get_title();
+     					CheckBox courseToAdd = requiredMap.get(s);
+     					if (courseToAdd.isSelected()){
+     						program.addRequiredCourses(s);
+     					}
+     				}
+     				programList.add(program);
+     				idTxt.clear();
+     				titleTxt.clear();
+     				descTxt.clear();
+     				departTxt.clear();
+        }
+        
+				//String id=idTxt.getText();
+				//String title=titleTxt.getText();
+
+				//id=Checks.ValidID(id, programList);
+				//title=Checks.ValidTitle(title, programList);
+				//if(id==null || title==null) {
+				//Checks.canceled();
 				//throw new Exception();
-				}else {
+				//}else {
 
-        program.setProgramID(idTxt.getText());
-        program.setProgramTitle(titleTxt.getText());
-        program.setProgramDesc(descTxt.getText());
-
-        String[] departments = departTxt.getText().split(", ");
-    		for (String s: departments)
-    			program.addDepartment(s);
-
-
-
-					//programList.add(program);
-
-				for (int i = 0; i < courseList.size(); i++){
-					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
-					CheckBox courseToAdd = electivesMap.get(s);
-					if (courseToAdd.isSelected()){
-						program.add_Elective(s);
-					}
-				}
-				for (int i = 0; i < courseList.size(); i++){
-					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
-					CheckBox courseToAdd = requiredMap.get(s);
-					if (courseToAdd.isSelected()){
-						program.addRequiredCourses(s);
-					}
-				}
+       
 
 
 				/*
@@ -682,8 +762,8 @@ public class GUI extends Application{
             item0
           }
         }*/
-        	programList.add(program);
-			}
+        	//programList.add(program);
+			//}
 				for (int i = 0; i < programList.size(); i++){
 				      Program currentProgram = programList.get(i);
 				      String s = currentProgram.getProgramID();
