@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
+import javax.swing.*;
 
 public class GUI extends Application{
 	private boolean load = true;
@@ -629,6 +630,7 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
 
         Program program = new Program();
+        /*
         boolean idValid = true;
         boolean titleValid = true;
         if (idTxt.getText().isEmpty() || idTxt.getText() == null) {
@@ -726,16 +728,21 @@ public class GUI extends Application{
      				descTxt.clear();
      				departTxt.clear();
         }
+       */ 
         
-				//String id=idTxt.getText();
-				//String title=titleTxt.getText();
+        		SwingUtilities.invokeLater( () -> {
+        			String id=idTxt.getText();
+    				String title=titleTxt.getText();
 
-				//id=Checks.ValidID(id, programList);
-				//title=Checks.ValidTitle(title, programList);
-				//if(id==null || title==null) {
-				//Checks.canceled();
-				//throw new Exception();
-				//}else {
+    				id=Checks.ValidID(id, programList);
+    				title=Checks.ValidTitle(title, programList);
+    				if(id==null || title==null) {
+    				Checks.canceled();
+    				//throw new Exception();
+    				}else {
+    					programList.add(program);
+    				}
+        		});
 
        
 
@@ -762,7 +769,7 @@ public class GUI extends Application{
             item0
           }
         }*/
-        	//programList.add(program);
+//        	//programList.add(program);
 			//}
 				for (int i = 0; i < programList.size(); i++){
 				      Program currentProgram = programList.get(i);
@@ -991,8 +998,19 @@ public class GUI extends Application{
       		course.add_mutually_exclusive(s);
 
         courseList.add(course);
-
+        /*
+        Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
+	    ImageView iv1 = new ImageView();
+	    iv1.setImage(image1);
+	    iv1.setFitWidth(150);
+	    iv1.setPreserveRatio(true);
+	    iv1.setSmooth(true);
+	    iv1.setCache(true);
+	    menuGrid.add(iv1, 0, 0);
+	    menuGrid.add(quitButton, 0, 4);
         start(primaryStage);
+        */
+	    //primaryStage.setScene(menuScene);
       }
     });
 
