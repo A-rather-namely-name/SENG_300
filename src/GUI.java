@@ -122,7 +122,7 @@ public class GUI extends Application{
     menuGrid.add(quitButton, 0, 4);
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
-    
+
     //scene for students
     GridPane stdGrid = new GridPane();
     stdGrid.setStyle("-fx-background-color:#85c124;");   //change color of background with color hex
@@ -137,30 +137,30 @@ public class GUI extends Application{
 
     Button stdListCoursesButton = new Button("View Courses");
     stdGrid.add(stdListCoursesButton, 1, 1);
-    
+
     Button stdQuitButton = new Button("Exit and Save");
     stdGrid.add(quitButton, 0, 2);
-    
+
     Scene stdScene = new Scene(stdGrid, winX, winY);
-    
+
     //scene for login
     Button newUser = new Button("New User");
     Button oldUser = new Button("Returning User");
     Button student = new Button("Proceed as Student");
-    
+
     newUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
     		Label usernameLbl = new Label("Enter username: ");
     		TextField usernameTxt = new TextField("username");
-    		
+
     		Label passwordLbl = new Label("Enter password: ");
     		TextField passwordTxt = new TextField("password");
-    		
+
     		Label userTypeLbl = new Label("User Type: ");
     		final ComboBox<String> userTypeDrop = new ComboBox<String>();
     		userTypeDrop.getItems().addAll("Administrator", "Student");
-    		
+
     		Button registerButton = new Button("Register");
     		registerButton.setOnAction(new EventHandler<ActionEvent>() {
     			@Override
@@ -188,7 +188,7 @@ public class GUI extends Application{
     				}
     			}
     		});
-    		
+
     		GridPane register = new GridPane();
     		register.setAlignment(Pos.CENTER);
     		register.add(usernameLbl, 0, 0);
@@ -198,27 +198,27 @@ public class GUI extends Application{
     		register.add(userTypeLbl, 0, 4);
     		register.add(userTypeDrop, 1, 4);
     		register.add(registerButton, 0, 6);
-    		
+
     		Scene registerScene = new Scene(register, 450, 250);
-    		
+
     		Stage registerWindow = new Stage();
     		registerWindow.setScene(registerScene);
     		registerWindow.initModality(Modality.APPLICATION_MODAL);
     		registerWindow.initOwner(primaryStage);
     		registerWindow.show();
-    		
+
     	}
     });
-    
+
     oldUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
     		Label usernameLbl = new Label("Enter username: ");
     		TextField usernameTxt = new TextField("username");
-    		
+
     		Label passwordLbl = new Label("Enter password: ");
     		TextField passwordTxt = new TextField("password");
-    		
+
     		Button loginButton = new Button("Login");
     		loginButton.setOnAction(new EventHandler<ActionEvent>() {
     			@Override
@@ -232,7 +232,7 @@ public class GUI extends Application{
     							primaryStage.setScene(stdScene);
     	    					primaryStage.show();
     						}
-    					} 
+    					}
     				} else {
     					VBox invalidUsernameBox = new VBox();
     					invalidUsernameBox.setAlignment(Pos.CENTER);
@@ -253,18 +253,18 @@ public class GUI extends Application{
     		login.add(passwordLbl, 0, 2);
     		login.add(passwordTxt, 1, 2);
     		login.add(loginButton, 0, 4);
-    		
+
     		Scene loginScene = new Scene(login, 450, 250);
-    		
+
     		Stage loginWindow = new Stage();
     		loginWindow.setScene(loginScene);
     		loginWindow.initModality(Modality.APPLICATION_MODAL);
     		loginWindow.initOwner(primaryStage);
     		loginWindow.show();
-    		
+
     	}
     });
-    
+
     student.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
@@ -273,7 +273,7 @@ public class GUI extends Application{
     	    primaryStage.show();
     	}
     });
-    
+
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setSpacing(20);
@@ -283,7 +283,7 @@ public class GUI extends Application{
     Scene loginScene = new Scene(root, winX, winY);
     primaryStage.setScene(loginScene);
     primaryStage.show();
-    
+
     //vbox and scene for the viewing programs
 
     VBox listProgramBox = new VBox();
@@ -348,38 +348,24 @@ public class GUI extends Application{
 
     Label departLbl = new Label("Enter the Departments the Program Belongs to Separated by Commas");
     TextField departTxt = new TextField();
-/*
+
     Label electLbl = new Label("Choose the Elective Courses the Program Offers");
     MenuButton menuButton = new MenuButton();
-*/
-		Label electLbl = new Label("Enter the Elective Courses the Program Offers Separated by Commas");
-    TextField electTxt = new TextField();
 
-    Label requireLbl = new Label("Enter the Required Courses of the Program Separated by Commas");
-    TextField requireTxt = new TextField();
-/*
+
+
 		for (int i = 0; i < courseList.size(); i++){
 			Course currentCourse = courseList.get(i);
 			String s = currentCourse.get_title();
 			//String courseName = new String(s);
 			CheckBox courseName = new CheckBox(s);
 			CustomMenuItem item1 = new CustomMenuItem(courseName);
-
 			electivesMap.put(s, courseName);
 			item1.setHideOnClick(false);
 			menuButton.getItems().add(item1);
 		}
 
 
-
-    /*for (int i = 0; i < courseList.size(); i++){
-      Course currentCourse = courseList.get(i);
-      String s = currentCourse.get_title();
-      CustomMenuItem item0 = new CustomMenuItem(new CheckBox(s));
-      item0.setHideOnClick(false);
-      menuButton.getItems().add(item0);
-    }*/
-/*
     Label requireLbl = new Label("Choose the Required Courses of the Program");
     MenuButton menuButton2 = new MenuButton();
 		for (int i = 0; i < courseList.size(); i++){
@@ -388,25 +374,16 @@ public class GUI extends Application{
 			//String courseName = new String(s);
 			CheckBox courseName = new CheckBox(s);
 			CustomMenuItem item1 = new CustomMenuItem(courseName);
-
 			requiredMap.put(s, courseName);
 			item1.setHideOnClick(false);
 			menuButton2.getItems().add(item1);
 		}
-		/*
-    for (int i = 0; i < courseList.size(); i++){
-      Course currentCourse = courseList.get(i);
-      String s = currentCourse.get_title();
-      CustomMenuItem item0 = new CustomMenuItem(new CheckBox(s));
-      item0.setHideOnClick(false);
-      menuButton2.getItems().add(item0);
-    }*/
+
 
     Button enterNewProgramButton = new Button();
     enterNewProgramButton.setText("Add New Program");
 
-    //addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton);
-		addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, electTxt, requireLbl, requireTxt, enterNewProgramButton);
+    addProgramBox.getChildren().addAll(idLbl, idTxt, titleLbl, titleTxt, descLbl, descTxt, departLbl, departTxt, electLbl, menuButton, requireLbl, menuButton2, enterNewProgramButton);
 
     Scene addProgramScene = new Scene(addProgramBox, 500, 500);
 
@@ -622,16 +599,10 @@ public class GUI extends Application{
     		for (String s: departments)
     			program.addDepartment(s);
 
-					String[] electives = electTxt.getText().split(", ");
-					for (String s: electives)
-						program.add_Elective(s);
 
-					String[] requiredCourses = requireTxt.getText().split(", ");
-					for (String s: requiredCourses)
-						program.addRequiredCourses(s);
 
 					//programList.add(program);
-			/*
+
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
 					String s = currentCourse.get_title();
@@ -640,7 +611,6 @@ public class GUI extends Application{
 						program.add_Elective(s);
 					}
 				}
-
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
 					String s = currentCourse.get_title();
@@ -649,7 +619,7 @@ public class GUI extends Application{
 						program.addRequiredCourses(s);
 					}
 				}
-				*/
+
 
 				/*
 				System.out.println(menuButton.getItems());
@@ -663,7 +633,6 @@ public class GUI extends Application{
         String[] electives = electTxt.getText().split(", ");
       	for (String s: electives)
       		program.add_Elective(s);
-
         String[] requiredCourses = requireTxt.getText().split(", ");
       	for (String s: requiredCourses)
       		program.addRequiredCourses(s);
@@ -703,13 +672,8 @@ public class GUI extends Application{
             viewID = programList.get(i).getProgramID();
             viewTitle = programList.get(i).getProgramTitle();
             viewDesc = programList.get(i).getProgramDesc();
-
-
             /*for(String d: programList.get(i).getDepartments())
               System.out.print(d + " ");
-
-
-
             viewID = programList.get(i).getProgramID();
             viewID = programList.get(i).getProgramID();
           }
@@ -1004,7 +968,7 @@ public class GUI extends Application{
       }
     });
   }
-  
+
   public static void main(String[] args) {
       launch(args);
   }
