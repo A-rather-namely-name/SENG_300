@@ -503,7 +503,6 @@ public class GUI extends Application{
     enterNewCourseButton.setText("Add New Course");
 
     addCourseBox.getChildren().addAll(courseIDLbl, courseIDTxt, courseTitleLbl, courseTitleTxt, courseDescLbl, courseDescTxt, courseYearLbl, courseYearTxt, coursePreReqLbl, coursePreReqTxt, courseMutExLbl, courseMutExTxt, enterNewCourseButton);
-    
 
     Scene addCourseScene = new Scene(addCourseBox, 500, 500);
 
@@ -682,7 +681,7 @@ public class GUI extends Application{
 
         	programList.add(program);
 			}
-        primaryStage.setScene(menuScene);
+        start(primaryStage);
       }
     });
 
