@@ -682,7 +682,7 @@ public class GUI extends Application{
 
         	programList.add(program);
 			}
-        primaryStage.setScene(menuScene);
+        start(primaryStage);
       }
     });
 
