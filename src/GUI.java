@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 public class GUI extends Application{
 	private boolean load = true;
 	private HashMap<String, String> users = new HashMap<String, String>();
+	private HashMap<String, String> userType = new HashMap<String, String>();
   //standard window dimensions
   private int winX = 600;
   private int winY = 400;
@@ -121,61 +122,168 @@ public class GUI extends Application{
     menuGrid.add(quitButton, 0, 4);
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
-    
-    
-    
+
+    //scene for students
+    GridPane stdGrid = new GridPane();
+    stdGrid.setStyle("-fx-background-color:#85c124;");   //change color of background with color hex
+    stdGrid.setHgap(10);
+    stdGrid.setVgap(10);
+    stdGrid.setPadding(new Insets(20,20,20,20));
+
+    stdGrid.add(iv1, 0, 0);
+
+    Button stdListProgramsButton = new Button("View Programs");
+    stdGrid.add(stdListProgramsButton, 0, 1);
+
+    Button stdListCoursesButton = new Button("View Courses");
+    stdGrid.add(stdListCoursesButton, 1, 1);
+
+    Button stdQuitButton = new Button("Exit and Save");
+    stdGrid.add(quitButton, 0, 2);
+
+    Scene stdScene = new Scene(stdGrid, winX, winY);
+
     //scene for login
-    Button newUser = new Button();
-    newUser.setText("New User");
-    Button oldUser = new Button();
-    oldUser.setText("Returning User");
-    
+    Button newUser = new Button("New User");
+    Button oldUser = new Button("Returning User");
+    Button student = new Button("Proceed as Student");
+
     newUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
     		Label usernameLbl = new Label("Enter username: ");
     		TextField usernameTxt = new TextField("username");
-    		
+
     		Label passwordLbl = new Label("Enter password: ");
     		TextField passwordTxt = new TextField("password");
-    		
+
+    		Label userTypeLbl = new Label("User Type: ");
+    		final ComboBox<String> userTypeDrop = new ComboBox<String>();
+    		userTypeDrop.getItems().addAll("Administrator", "Student");
+
+    		Button registerButton = new Button("Register");
+    		registerButton.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override
+    			public void handle(ActionEvent event) {
+    				if (!users.containsKey(usernameTxt.getText())) {
+    					users.put(usernameTxt.getText(), passwordTxt.getText());
+    					userType.put(usernameTxt.getText(), userTypeDrop.getValue());
+    				} else {
+    					VBox invalidUsernameBox = new VBox();
+    					invalidUsernameBox.setAlignment(Pos.CENTER);
+    					Label usernameExist = new Label("Username already exists. ");
+    					invalidUsernameBox.getChildren().add(usernameExist);
+    					Scene invalidUsernameScene = new Scene(invalidUsernameBox, 300, 100);
+    					Stage invalidUsernameStage = new Stage();
+    					invalidUsernameStage.setScene(invalidUsernameScene);
+    					invalidUsernameStage.initModality(Modality.APPLICATION_MODAL);
+    					invalidUsernameStage.show();
+    				}
+    				if (userTypeDrop.getValue().equals("Administrator")) {
+    					primaryStage.setScene(menuScene);
+    					primaryStage.show();
+    				} else {
+    					primaryStage.setScene(stdScene);
+    					primaryStage.show();
+    				}
+    			}
+    		});
+
     		GridPane register = new GridPane();
     		register.setAlignment(Pos.CENTER);
     		register.add(usernameLbl, 0, 0);
     		register.add(usernameTxt, 1, 0);
     		register.add(passwordLbl, 0, 2);
     		register.add(passwordTxt, 1, 2);
-    		
+    		register.add(userTypeLbl, 0, 4);
+    		register.add(userTypeDrop, 1, 4);
+    		register.add(registerButton, 0, 6);
+
     		Scene registerScene = new Scene(register, 450, 250);
-    		
+
     		Stage registerWindow = new Stage();
     		registerWindow.setScene(registerScene);
-    		registerWindow.initModality(Modality.WINDOW_MODAL);
+    		registerWindow.initModality(Modality.APPLICATION_MODAL);
     		registerWindow.initOwner(primaryStage);
     		registerWindow.show();
-    		
+
     	}
     });
-    
+
     oldUser.setOnAction(new EventHandler<ActionEvent>() {
     	@Override
     	public void handle(ActionEvent event) {
-    		primaryStage.setTitle("Program and Course Management");
-    	    primaryStage.setScene(menuScene);
-    	    primaryStage.show();	
-    		
+    		Label usernameLbl = new Label("Enter username: ");
+    		TextField usernameTxt = new TextField("username");
+
+    		Label passwordLbl = new Label("Enter password: ");
+    		TextField passwordTxt = new TextField("password");
+
+    		Button loginButton = new Button("Login");
+    		loginButton.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override
+    			public void handle(ActionEvent event) {
+    				if (users.containsKey(usernameTxt.getText())) {
+    					if (users.get(usernameTxt.getText()).equals(passwordTxt.getText())) {
+    						if (userType.get(usernameTxt.getText()).equals("Administrator")) {
+    							primaryStage.setScene(menuScene);
+    	    					primaryStage.show();
+    						} else {
+    							primaryStage.setScene(stdScene);
+    	    					primaryStage.show();
+    						}
+    					}
+    				} else {
+    					VBox invalidUsernameBox = new VBox();
+    					invalidUsernameBox.setAlignment(Pos.CENTER);
+    					Label usernameExist = new Label("Invalid username/password. ");
+    					invalidUsernameBox.getChildren().add(usernameExist);
+    					Scene invalidUsernameScene = new Scene(invalidUsernameBox, 300, 100);
+    					Stage invalidUsernameStage = new Stage();
+    					invalidUsernameStage.setScene(invalidUsernameScene);
+    					invalidUsernameStage.initModality(Modality.APPLICATION_MODAL);
+    					invalidUsernameStage.show();
+    				}
+    			}
+    		});
+    		GridPane login = new GridPane();
+    		login.setAlignment(Pos.CENTER);
+    		login.add(usernameLbl, 0, 0);
+    		login.add(usernameTxt, 1, 0);
+    		login.add(passwordLbl, 0, 2);
+    		login.add(passwordTxt, 1, 2);
+    		login.add(loginButton, 0, 4);
+
+    		Scene loginScene = new Scene(login, 450, 250);
+
+    		Stage loginWindow = new Stage();
+    		loginWindow.setScene(loginScene);
+    		loginWindow.initModality(Modality.APPLICATION_MODAL);
+    		loginWindow.initOwner(primaryStage);
+    		loginWindow.show();
+
     	}
     });
-    
+
+    student.setOnAction(new EventHandler<ActionEvent>() {
+    	@Override
+    	public void handle(ActionEvent event) {
+    		primaryStage.setTitle("Program and Course Viewer");
+    	    primaryStage.setScene(stdScene);
+    	    primaryStage.show();
+    	}
+    });
+
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setSpacing(20);
     root.getChildren().add(newUser);
     root.getChildren().add(oldUser);
-    Scene loginScene = new Scene(root, 450, 250);
+    root.getChildren().add(student);
+    Scene loginScene = new Scene(root, winX, winY);
     primaryStage.setScene(loginScene);
     primaryStage.show();
-    
+
     //vbox and scene for the viewing programs
 
     VBox listProgramBox = new VBox();
@@ -256,14 +364,10 @@ public class GUI extends Application{
 			//String courseName = new String(s);
 			CheckBox courseName = new CheckBox(s);
 			CustomMenuItem item1 = new CustomMenuItem(courseName);
-
 			electivesMap.put(s, courseName);
 			item1.setHideOnClick(false);
 			menuButton.getItems().add(item1);
 		}
-
-
-
     /*for (int i = 0; i < courseList.size(); i++){
       Course currentCourse = courseList.get(i);
       String s = currentCourse.get_title();
@@ -280,7 +384,6 @@ public class GUI extends Application{
 			//String courseName = new String(s);
 			CheckBox courseName = new CheckBox(s);
 			CustomMenuItem item1 = new CustomMenuItem(courseName);
-
 			requiredMap.put(s, courseName);
 			item1.setHideOnClick(false);
 			menuButton2.getItems().add(item1);
@@ -532,7 +635,6 @@ public class GUI extends Application{
 						program.add_Elective(s);
 					}
 				}
-
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
 					String s = currentCourse.get_title();
@@ -555,7 +657,6 @@ public class GUI extends Application{
         String[] electives = electTxt.getText().split(", ");
       	for (String s: electives)
       		program.add_Elective(s);
-
         String[] requiredCourses = requireTxt.getText().split(", ");
       	for (String s: requiredCourses)
       		program.addRequiredCourses(s);
@@ -595,13 +696,8 @@ public class GUI extends Application{
             viewID = programList.get(i).getProgramID();
             viewTitle = programList.get(i).getProgramTitle();
             viewDesc = programList.get(i).getProgramDesc();
-
-
             /*for(String d: programList.get(i).getDepartments())
               System.out.print(d + " ");
-
-
-
             viewID = programList.get(i).getProgramID();
             viewID = programList.get(i).getProgramID();
           }
@@ -896,7 +992,7 @@ public class GUI extends Application{
       }
     });
   }
-  
+
   public static void main(String[] args) {
       launch(args);
   }
