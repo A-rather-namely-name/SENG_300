@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
-import javax.swing.*;  
-public class Checks {
+import javafx.*;
+import javafx.application.Application;
+public class Checks extends Application{
 
 	public static String ValidID(String userInput, ArrayList<Program> programs) {
 		boolean valid =true;
