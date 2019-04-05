@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
@@ -446,94 +445,86 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
 
         Program program = new Program();
-        try {
-			SwingUtilities.invokeAndWait(() -> {
-					String id=idTxt.getText();
-					String title=titleTxt.getText();
+				String id=idTxt.getText();
+				String title=titleTxt.getText();
 
-					id=Checks.VlaidID(id, programList);
-					title=Checks.VlaidTitle(title, programList);
-					if(id==null || title==null) {
-					Checks.canceled();
-					//throw new Exception();
-					}else {
+				id=Checks.VlaidID(id, programList);
+				title=Checks.VlaidTitle(title, programList);
+				if(id==null || title==null) {
+				Checks.canceled();
+				//throw new Exception();
+				}else {
 
-			program.setProgramID(idTxt.getText());
-			program.setProgramTitle(titleTxt.getText());
-			program.setProgramDesc(descTxt.getText());
+        program.setProgramID(idTxt.getText());
+        program.setProgramTitle(titleTxt.getText());
+        program.setProgramDesc(descTxt.getText());
 
-			String[] departments = departTxt.getText().split(", ");
-				for (String s: departments)
-					program.addDepartment(s);
+        String[] departments = departTxt.getText().split(", ");
+    		for (String s: departments)
+    			program.addDepartment(s);
 
-						String[] electives = electTxt.getText().split(", ");
-						for (String s: electives)
-							program.add_Elective(s);
+					String[] electives = electTxt.getText().split(", ");
+					for (String s: electives)
+						program.add_Elective(s);
 
-						String[] requiredCourses = requireTxt.getText().split(", ");
-						for (String s: requiredCourses)
-							program.addRequiredCourses(s);
+					String[] requiredCourses = requireTxt.getText().split(", ");
+					for (String s: requiredCourses)
+						program.addRequiredCourses(s);
 
-						//programList.add(program);
-				/*
-					for (int i = 0; i < courseList.size(); i++){
-						Course currentCourse = courseList.get(i);
-						String s = currentCourse.get_title();
-						CheckBox courseToAdd = electivesMap.get(s);
-						if (courseToAdd.isSelected()){
-							program.add_Elective(s);
-						}
-					}
-
-					for (int i = 0; i < courseList.size(); i++){
-						Course currentCourse = courseList.get(i);
-						String s = currentCourse.get_title();
-						CheckBox courseToAdd = requiredMap.get(s);
-						if (courseToAdd.isSelected()){
-							program.addRequiredCourses(s);
-						}
-					}
-					*/
-
-					/*
-					System.out.println(menuButton.getItems());
-					menuButton.getItems();
-					if (coursename.isSelected()){
-						System.out.println("Course 1 is selected");
-					} else {
-						System.out.println("Not selected");
-					}*/
+					//programList.add(program);
 			/*
-			String[] electives = electTxt.getText().split(", ");
-			for (String s: electives)
-				program.add_Elective(s);
-
-			String[] requiredCourses = requireTxt.getText().split(", ");
-			for (String s: requiredCourses)
-				program.addRequiredCourses(s);
-			  */
-
-			/*for (int i = 0; i < courseList.size(); i++){
-			  //if (checkBox.isSelected()){
-			    item0
-			  }
-			}*/
-
-
-
-
-
-				programList.add(program);
+				for (int i = 0; i < courseList.size(); i++){
+					Course currentCourse = courseList.get(i);
+					String s = currentCourse.get_title();
+					CheckBox courseToAdd = electivesMap.get(s);
+					if (courseToAdd.isSelected()){
+						program.add_Elective(s);
+					}
 				}
-     });
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+				for (int i = 0; i < courseList.size(); i++){
+					Course currentCourse = courseList.get(i);
+					String s = currentCourse.get_title();
+					CheckBox courseToAdd = requiredMap.get(s);
+					if (courseToAdd.isSelected()){
+						program.addRequiredCourses(s);
+					}
+				}
+				*/
+
+				/*
+				System.out.println(menuButton.getItems());
+				menuButton.getItems();
+				if (coursename.isSelected()){
+					System.out.println("Course 1 is selected");
+				} else {
+					System.out.println("Not selected");
+				}*/
+        /*
+        String[] electives = electTxt.getText().split(", ");
+      	for (String s: electives)
+      		program.add_Elective(s);
+
+        String[] requiredCourses = requireTxt.getText().split(", ");
+      	for (String s: requiredCourses)
+      		program.addRequiredCourses(s);
+          */
+
+        /*for (int i = 0; i < courseList.size(); i++){
+          //if (checkBox.isSelected()){
+            item0
+          }
+        }*/
+
+
+
+
+
+        	programList.add(program);
+			}
+		SwingUtilities.invokeLater(() -> {
         start(primaryStage);
+		});
       }
     });
 
@@ -855,9 +846,5 @@ public class GUI extends Application{
         start(primaryStage);
       }
     });
-  }
-  
-  public static void main(String[] args) {
-      launch(args);
   }
 }
