@@ -443,7 +443,7 @@ public class GUI extends Application{
     //this button takes the inputs from the text fields and creates a new program, changes scene back to main menu
     enterNewProgramButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
-
+    	  SwingUtilities.invokeLater(() -> {
         Program program = new Program();
 				String id=idTxt.getText();
 				String title=titleTxt.getText();
@@ -522,9 +522,10 @@ public class GUI extends Application{
 
         	programList.add(program);
 			}
-		SwingUtilities.invokeLater(() -> {
+		Platform.runLater(() -> {
         start(primaryStage);
 		});
+    	  });
       }
     });
 
