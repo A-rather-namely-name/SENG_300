@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
+import javax.swing.*;
 
 public class GUI extends Application{
 	private boolean load = true;
@@ -618,7 +619,7 @@ public class GUI extends Application{
     //this button takes the inputs from the text fields and creates a new program, changes scene back to main menu
     enterNewProgramButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
-
+    	  SwingUtilities.invokeLater(() -> {
         Program program = new Program();
 				String id=idTxt.getText();
 				String title=titleTxt.getText();
@@ -684,12 +685,10 @@ public class GUI extends Application{
         }*/
         	programList.add(program);
 			}
-				for (int i = 0; i < programList.size(); i++){
-				      Program currentProgram = programList.get(i);
-				      String s = currentProgram.getProgramID();
-				      programListChoiceBox.getItems().add(s);
-				    }
-		primaryStage.setScene(menuScene);
+		Platform.runLater(() -> {
+        start(primaryStage);
+		});
+    	  });
       }
     });
 
