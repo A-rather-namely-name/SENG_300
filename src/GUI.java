@@ -619,8 +619,9 @@ public class GUI extends Application{
     //this button takes the inputs from the text fields and creates a new program, changes scene back to main menu
     enterNewProgramButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
+    	  Program program = new Program();
     	  SwingUtilities.invokeLater(() -> {
-        Program program = new Program();
+        
 				String id=idTxt.getText();
 				String title=titleTxt.getText();
 
@@ -628,20 +629,14 @@ public class GUI extends Application{
 				title=Checks.ValidTitle(title, programList);
 				if(id==null || title==null) {
 				Checks.canceled();
-				//throw new Exception();
 				}else {
-
-        program.setProgramID(idTxt.getText());
-        program.setProgramTitle(titleTxt.getText());
+        program.setProgramID(id);
+        program.setProgramTitle(title);
         program.setProgramDesc(descTxt.getText());
 
         String[] departments = departTxt.getText().split(", ");
     		for (String s: departments)
     			program.addDepartment(s);
-
-
-
-					//programList.add(program);
 
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
@@ -660,29 +655,6 @@ public class GUI extends Application{
 					}
 				}
 
-
-				/*
-				System.out.println(menuButton.getItems());
-				menuButton.getItems();
-				if (coursename.isSelected()){
-					System.out.println("Course 1 is selected");
-				} else {
-					System.out.println("Not selected");
-				}*/
-        /*
-        String[] electives = electTxt.getText().split(", ");
-      	for (String s: electives)
-      		program.add_Elective(s);
-        String[] requiredCourses = requireTxt.getText().split(", ");
-      	for (String s: requiredCourses)
-      		program.addRequiredCourses(s);
-          */
-
-        /*for (int i = 0; i < courseList.size(); i++){
-          //if (checkBox.isSelected()){
-            item0
-          }
-        }*/
         	programList.add(program);
 			}
 		Platform.runLater(() -> {
@@ -850,9 +822,18 @@ public class GUI extends Application{
     //this button takes the changed inputs and edits the current program, back to menu scene
     submitEditButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
-
-        programToEdit.setProgramID(editidTxt.getText());
-        programToEdit.setProgramTitle(edittitleTxt.getText());
+    	SwingUtilities.invokeLater(() -> {
+    	  String id=editidTxt.getText();
+    	  String title=edittitleTxt.getText();
+    	  programToEdit.setProgramID("");
+          programToEdit.setProgramTitle("");
+    	  id=Checks.ValidID(id, programList);
+    	  title=Checks.ValidTitle(title, programList);
+			if(id==null || title==null) {
+			Checks.canceled();
+			}else {
+        programToEdit.setProgramID(id);
+        programToEdit.setProgramTitle(title);
         programToEdit.setProgramDesc(editdescTxt.getText());
 
         programToEdit.getDepartments();
@@ -872,8 +853,11 @@ public class GUI extends Application{
         String[] requiredCourses = editrequireTxt.getText().split(", ");
       	for (String s: requiredCourses)
       		programToEdit.addRequiredCourses(s);
-
-        start(primaryStage);
+      }
+			Platform.runLater(() -> {
+		        start(primaryStage);
+				});
+		    	  });
       }
     });
 
@@ -893,9 +877,18 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
 
         Course course = new Course();
+        SwingUtilities.invokeLater(() -> {
+        	
+        	String id=courseIDTxt.getText();
+			String title=courseTitleTxt.getText();
 
-        course.set_id(courseIDTxt.getText());
-        course.set_title(courseTitleTxt.getText());
+			id=Checks.ValidIDC(id, courseList);
+			title=Checks.ValidTitleC(title, courseList);
+			if(id==null || title==null) {
+			Checks.canceled();
+			}else {
+        course.set_id(id);
+        course.set_title(title);
         course.set_descr(courseDescTxt.getText());
 		course.set_year(courseYearTxt.getText());
 
@@ -909,7 +902,11 @@ public class GUI extends Application{
 
         courseList.add(course);
 
-        start(primaryStage);
+			}
+			Platform.runLater(() -> {
+	        start(primaryStage);
+			});
+	    	  });
       }
     });
 
@@ -991,9 +988,19 @@ public class GUI extends Application{
     //this button takes the changed inputs and edits the current course, back to menu scene
     submitCourseEditButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
-
-        courseToEdit.set_id(editCourseIDTxt.getText());
-        courseToEdit.set_title(editCourseTitleTxt.getText());
+    	  SwingUtilities.invokeLater(() -> {
+          	
+          	String id=editCourseIDTxt.getText();
+  			String title=editCourseTitleTxt.getText();
+  			courseToEdit.set_id("");
+  	        courseToEdit.set_title("");
+  			id=Checks.ValidIDC(id, courseList);
+  			title=Checks.ValidTitleC(title, courseList);
+  			if(id==null || title==null) {
+  			Checks.canceled();
+  			}else {
+        courseToEdit.set_id(id);
+        courseToEdit.set_title(title);
         courseToEdit.set_descr(editCourseDescTxt.getText());
 		courseToEdit.set_year(editCourseYearTxt.getText());
 
@@ -1008,7 +1015,11 @@ public class GUI extends Application{
       	for (String s: mutEx)
       		courseToEdit.add_mutually_exclusive(s);
 
-        start(primaryStage);
+  			}
+			Platform.runLater(() -> {
+	        start(primaryStage);
+			});
+	    	  });
       }
     });
   }
