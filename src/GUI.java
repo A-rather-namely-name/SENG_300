@@ -131,8 +131,16 @@ public class GUI extends Application{
     iv1.setSmooth(true);
     iv1.setCache(true);
     menuGrid.add(iv1, 0, 0);
+    
+    ImageView iv1b = new ImageView();
+    iv1b.setImage(image1);
+    iv1b.setFitWidth(150);
+    iv1b.setPreserveRatio(true);
+    iv1b.setSmooth(true);
+    iv1b.setCache(true);
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
+    
     primaryStage.setScene(menuScene);
     primaryStage.show();
 
@@ -143,7 +151,7 @@ public class GUI extends Application{
     stdGrid.setVgap(10);
     stdGrid.setPadding(new Insets(20,20,20,20));
 
-    stdGrid.add(iv1, 0, 0);
+    stdGrid.add(iv1b, 0, 0);
 
     Button stdListProgramsButton = new Button("View Programs");
     stdGrid.add(stdListProgramsButton, 0, 1);
@@ -152,7 +160,7 @@ public class GUI extends Application{
     stdGrid.add(stdListCoursesButton, 1, 1);
 
     Button stdQuitButton = new Button("Exit and Save");
-    stdGrid.add(quitButton, 0, 2);
+    stdGrid.add(stdQuitButton, 0, 4);
 
     Scene stdScene = new Scene(stdGrid, winX, winY);
 
@@ -191,7 +199,7 @@ public class GUI extends Application{
         				    iv1.setSmooth(true);
         				    iv1.setCache(true);
         				    menuGrid.add(iv1, 0, 0);
-        				    menuGrid.add(quitButton, 0, 4);
+        				    menuGrid.add(stdQuitButton, 0, 4);
         				    loginCheck = false;
         				    primaryStage.close();
         					primaryStage.setScene(menuScene);
@@ -260,7 +268,7 @@ public class GUI extends Application{
     	    				    iv1.setSmooth(true);
     	    				    iv1.setCache(true);
     	    				    menuGrid.add(iv1, 0, 0);
-    	    				    menuGrid.add(quitButton, 0, 4);
+    	    				    menuGrid.add(stdQuitButton, 0, 4);
     	    				    loginCheck = false;
     	    				    primaryStage.close();
     							primaryStage.setScene(menuScene);
@@ -732,6 +740,38 @@ public class GUI extends Application{
         System.exit(0);
       }
     });
+  //this button exits the program, I'm guessing this button could also be when file i/o is implemented
+    stdQuitButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+      public void handle(ActionEvent event){
+        try {
+          String fileName = "programSaveGUI.dat";
+          FileOutputStream out = new FileOutputStream(fileName);
+          out.write(("").getBytes());
+          ObjectOutputStream writer = new ObjectOutputStream(out);
+          writer.writeObject(programList);
+          out.close();
+          fileName = "courseSaveGUI.dat";
+          out = new FileOutputStream(fileName);
+          writer = new ObjectOutputStream(out);
+          out.write(("").getBytes());
+          writer.writeObject(courseList);
+          out.close();
+          fileName = "userSaveGUI.dat";
+          out = new FileOutputStream(fileName);
+          writer = new ObjectOutputStream(out);
+          out.write(("").getBytes());
+          ArrayList<HashMap<String, String>> usersList = new ArrayList<HashMap<String, String>>();
+          usersList.add(users);
+          usersList.add(userType);
+          writer.writeObject(usersList);
+          out.close();
+        } catch (IOException e) {
+          System.out.println("Failed to save. ");
+        }
+        System.exit(0);
+      }
+    });
 
     //this button changes the scene to the edit program scene
     editProgramButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -950,7 +990,7 @@ public class GUI extends Application{
         for (String s: mutEx)
           viewCourseMutExs = viewCourseMutExs + s;
 
-        start(primaryStage);start(primaryStage);start(primaryStage);
+        start(primaryStage);
 
 		//Auto fill field with current values
 
