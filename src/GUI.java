@@ -86,6 +86,10 @@ public class GUI extends Application{
     }
 	  load=false;
     }
+
+		//back to login screen button
+		Button backToLoginButton = new Button();
+		backToLoginButton.setText("Back To Login Screen");
     //gridpane and scene for the main menu
 
     GridPane menuGrid = new GridPane();
@@ -123,6 +127,8 @@ public class GUI extends Application{
     quitButton.setText("Exit and Save");
     menuGrid.add(quitButton, 0, 4);
 
+		menuGrid.add(backToLoginButton, 4, 6);
+
     Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
     ImageView iv1 = new ImageView();
     iv1.setImage(image1);
@@ -131,7 +137,7 @@ public class GUI extends Application{
     iv1.setSmooth(true);
     iv1.setCache(true);
     menuGrid.add(iv1, 0, 0);
-    
+
     ImageView iv1b = new ImageView();
     iv1b.setImage(image1);
     iv1b.setFitWidth(150);
@@ -140,9 +146,32 @@ public class GUI extends Application{
     iv1b.setCache(true);
 
     Scene menuScene = new Scene(menuGrid, winX, winY);
-    
+
     primaryStage.setScene(menuScene);
     primaryStage.show();
+
+		//scene for students viewing programs
+		VBox stdListProgramBox = new VBox();
+		stdListProgramBox.setStyle("-fx-background-color:#85c124;");
+    stdListProgramBox.setAlignment(Pos.CENTER);
+    stdListProgramBox.setSpacing(10);
+
+    ChoiceBox<String> stdProgramListChoiceBox = new ChoiceBox<String>();
+    for (int i = 0; i < programList.size(); i++){
+      Program currentProgram = programList.get(i);
+      String s = currentProgram.getProgramID();
+      stdProgramListChoiceBox.getItems().add(s);
+    }
+
+    Button stdViewProgramButton = new Button();
+    stdViewProgramButton.setText("View Program");
+
+    Button backToStudentSceneButton = new Button();
+    backToStudentSceneButton.setText("Back to Menu");
+
+    stdListProgramBox.getChildren().addAll(stdProgramListChoiceBox, stdViewProgramButton, backToStudentSceneButton);
+
+    Scene stdListProgramsScene = new Scene(stdListProgramBox, winX, winY);
 
     //scene for students
     GridPane stdGrid = new GridPane();
@@ -161,6 +190,8 @@ public class GUI extends Application{
 
     Button stdQuitButton = new Button("Exit and Save");
     stdGrid.add(stdQuitButton, 0, 4);
+
+		stdGrid.add(backToLoginButton, 1, 4);
 
     Scene stdScene = new Scene(stdGrid, winX, winY);
 
@@ -211,6 +242,7 @@ public class GUI extends Application{
         				}
     				} else {
     					VBox invalidUsernameBox = new VBox();
+							invalidUsernameBox.setStyle("-fx-background-color:#85c124;");
     					invalidUsernameBox.setAlignment(Pos.CENTER);
     					Label usernameExist = new Label("Username already exists. ");
     					invalidUsernameBox.getChildren().add(usernameExist);
@@ -224,6 +256,7 @@ public class GUI extends Application{
     		});
 
     		GridPane register = new GridPane();
+				register.setStyle("-fx-background-color:#85c124;");
     		register.setAlignment(Pos.CENTER);
     		register.add(usernameLbl, 0, 0);
     		register.add(usernameTxt, 1, 0);
@@ -281,6 +314,7 @@ public class GUI extends Application{
     					}
     				} else {
     					VBox invalidUsernameBox = new VBox();
+							invalidUsernameBox.setStyle("-fx-background-color:#85c124;");
     					invalidUsernameBox.setAlignment(Pos.CENTER);
     					Label usernameExist = new Label("Invalid username/password. ");
     					invalidUsernameBox.getChildren().add(usernameExist);
@@ -293,6 +327,7 @@ public class GUI extends Application{
     			}
     		});
     		GridPane login = new GridPane();
+				login.setStyle("-fx-background-color:#85c124;");
     		login.setAlignment(Pos.CENTER);
     		login.add(usernameLbl, 0, 0);
     		login.add(usernameTxt, 1, 0);
@@ -321,6 +356,7 @@ public class GUI extends Application{
     });
 
     VBox root = new VBox();
+		root.setStyle("-fx-background-color:#85c124;");
     root.setAlignment(Pos.CENTER);
     root.setSpacing(20);
     root.getChildren().add(newUser);
@@ -335,6 +371,7 @@ public class GUI extends Application{
     //vbox and scene for the viewing programs
 
     VBox listProgramBox = new VBox();
+		listProgramBox.setStyle("-fx-background-color:#85c124;");
     listProgramBox.setAlignment(Pos.CENTER);
     listProgramBox.setSpacing(10);
 
@@ -358,6 +395,7 @@ public class GUI extends Application{
     //view program scene, currently not using this scene, viewing program just displays to console
 
     VBox viewProgramBox = new VBox();
+		viewProgramBox.setStyle("-fx-background-color:#85c124;");
     viewProgramBox.setAlignment(Pos.CENTER);
     viewProgramBox.setSpacing(10);
 
@@ -382,6 +420,7 @@ public class GUI extends Application{
     //vbox and scene for adding a program
 
     VBox addProgramBox = new VBox();
+		addProgramBox.setStyle("-fx-background-color:#85c124;");
     addProgramBox.setAlignment(Pos.CENTER);
     addProgramBox.setSpacing(10);
 
@@ -438,6 +477,7 @@ public class GUI extends Application{
     //vbox and scene for choosing which program to edit
 
     VBox editProgramBox = new VBox();
+		editProgramBox.setStyle("-fx-background-color:#85c124;");
     editProgramBox.setAlignment(Pos.CENTER);
     editProgramBox.setSpacing(10);
 
@@ -461,6 +501,7 @@ public class GUI extends Application{
     //vbox and scene where actual editing of program happens
 
     VBox editThisProgramBox = new VBox();
+		editThisProgramBox.setStyle("-fx-background-color:#85c124;");
     editThisProgramBox.setAlignment(Pos.CENTER);
     editThisProgramBox.setSpacing(10);
 
@@ -495,6 +536,7 @@ public class GUI extends Application{
     //vbox and scene for adding a course
 
     VBox addCourseBox = new VBox();
+		addCourseBox.setStyle("-fx-background-color:#85c124;");
     addCourseBox.setAlignment(Pos.CENTER);
     addCourseBox.setSpacing(10);
 
@@ -533,6 +575,7 @@ public class GUI extends Application{
 	//vbox and scene for choosing which course to edit
 
     VBox editCourseBox = new VBox();
+		editCourseBox.setStyle("-fx-background-color:#85c124;");
     editCourseBox.setAlignment(Pos.CENTER);
     editCourseBox.setSpacing(10);
 
@@ -562,6 +605,7 @@ public class GUI extends Application{
     //vbox and scene where actual editing of course happens
 
     VBox editThisCourseBox = new VBox();
+		editThisCourseBox.setStyle("-fx-background-color:#85c124;");
     editThisCourseBox.setAlignment(Pos.CENTER);
     editThisCourseBox.setSpacing(10);
 
@@ -629,7 +673,7 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
     	  Program program = new Program();
     	  SwingUtilities.invokeLater(() -> {
-        
+
 				String id=idTxt.getText();
 				String title=titleTxt.getText();
 
@@ -684,20 +728,6 @@ public class GUI extends Application{
           }
         }
 
-        /* temporarily just displaying to console instead
-        for(int i = 0 ; i < programList.size() ; i++){
-          if(programList.get(i).getProgramID() == currentProgram){
-            viewID = programList.get(i).getProgramID();
-            viewTitle = programList.get(i).getProgramTitle();
-            viewDesc = programList.get(i).getProgramDesc();
-            /*for(String d: programList.get(i).getDepartments())
-              System.out.print(d + " ");
-            viewID = programList.get(i).getProgramID();
-            viewID = programList.get(i).getProgramID();
-          }
-        }
-        primaryStage.setScene(viewProgramScene); */
-
       }
     });
 
@@ -740,6 +770,16 @@ public class GUI extends Application{
         System.exit(0);
       }
     });
+
+		stdListProgramsButton.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				primaryStage.setScene(stdListProgramsScene);
+			}
+		});
+
+
+
+
   //this button exits the program, I'm guessing this button could also be when file i/o is implemented
     stdQuitButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
@@ -918,7 +958,7 @@ public class GUI extends Application{
 
         Course course = new Course();
         SwingUtilities.invokeLater(() -> {
-        	
+
         	String id=courseIDTxt.getText();
 			String title=courseTitleTxt.getText();
 
@@ -1029,7 +1069,7 @@ public class GUI extends Application{
     submitCourseEditButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
     	  SwingUtilities.invokeLater(() -> {
-          	
+
           	String id=editCourseIDTxt.getText();
   			String title=editCourseTitleTxt.getText();
   			courseToEdit.set_id("");
@@ -1062,6 +1102,36 @@ public class GUI extends Application{
 	    	  });
       }
     });
+
+		backToLoginButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+				primaryStage.setScene(loginScene);
+			}
+		});
+
+		backToStudentSceneButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+				primaryStage.setScene(stdScene);
+			}
+		});
+
+		//this button currently displays the selected program to console, should be changed to displaying the program within the GUI
+    stdViewProgramButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+
+        String currentProgram = stdProgramListChoiceBox.getValue();
+        for(int i = 0 ; i < programList.size() ; i++){
+          if(programList.get(i).getProgramID() == currentProgram){
+            programList.get(i).displayProgram();
+
+          }
+        }
+
+      }
+    });
+
+
+
   }
 
   public static void main(String[] args) {
