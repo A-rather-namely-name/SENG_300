@@ -491,10 +491,13 @@ public class GUI extends Application{
     Button editThisProgramButton = new Button();
     editThisProgramButton.setText("Edit Program");
 
+	Button deleteProgramButton = new Button();
+	deleteProgramButton.setText("Delete Program");
+	
     Button editBackButton = new Button();
     editBackButton.setText("Back to Menu");
 
-    editProgramBox.getChildren().addAll(editProgramListChoiceBox, editThisProgramButton, editBackButton);
+    editProgramBox.getChildren().addAll(editProgramListChoiceBox, editThisProgramButton, deleteProgramButton, editBackButton);
 
     Scene editProgramScene = new Scene(editProgramBox, winX, winY);
 
@@ -592,7 +595,10 @@ public class GUI extends Application{
     Button editCourseBackButton = new Button();
     editCourseBackButton.setText("Back to Menu");
 
-    editCourseBox.getChildren().addAll(editCourseListChoiceBox, editThisCourseButton, editCourseBackButton);
+	Button deleteCourseButton = new Button();
+	deleteCourseButton.setText("Delete Course");
+	
+    editCourseBox.getChildren().addAll(editCourseListChoiceBox, editThisCourseButton, deleteCourseButton, editCourseBackButton);
 
     Scene editCourseScene = new Scene(editCourseBox, winX, winY);
 
@@ -692,7 +698,7 @@ public class GUI extends Application{
 
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
+					String s = currentCourse.get_id();
 					CheckBox courseToAdd = electivesMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.add_Elective(s);
@@ -700,7 +706,7 @@ public class GUI extends Application{
 				}
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
+					String s = currentCourse.get_id();
 					CheckBox courseToAdd = requiredMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.addRequiredCourses(s);
@@ -899,6 +905,44 @@ public class GUI extends Application{
       }
     });
 
+	
+	
+	
+	
+	
+	
+	
+	
+	//This button is used to delete the selected program
+	deleteProgramButton.setOnAction(new EventHandler<ActionEvent>(){
+		public void handle(ActionEvent event){
+			SwingUtilities.invokeLater(() -> {
+				//This is the selected program to be deleted
+				String currentProgram = editProgramListChoiceBox.getValue();
+				
+				//Go through the program list to find the selected program
+				for (int i = 0; i < programList.size(); i++)
+				{
+					if (programList.get(i).getProgramID() == currentProgram)
+						programList.remove(i);
+				}
+				
+				Platform.runLater(() -> {
+					start(primaryStage);
+				});
+			});
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     //this button takes the changed inputs and edits the current program, back to menu scene
     submitEditButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
@@ -1103,6 +1147,52 @@ public class GUI extends Application{
       }
     });
 
+	
+	//This button is used to delete the selected course
+	deleteCourseButton.setOnAction(new EventHandler<ActionEvent>(){
+		public void handle(ActionEvent event){
+			SwingUtilities.invokeLater(() -> {
+				//This is the selected course to be deleted
+				String currentCourse = editCourseListChoiceBox.getValue();
+				
+				//Delete the course from any pre requisite or mutually exclusive spots in other courses
+				for (int i = 0; i < courseList.size(); i++)
+				{
+					courseList.get(i).remove_pre_req(currentCourse);
+					courseList.get(i).remove_mutually_exclusive(currentCourse);										
+				}
+				
+				//Go through the course list to find the selected course to delete it
+				for (int i = 0; i < courseList.size(); i++)
+				{									
+					if (courseList.get(i).get_id() == currentCourse)
+						courseList.remove(i);					
+				}	
+				
+				//Delete the course from any prgrams where it is an elective or requirement
+				for (int i = 0; i < programList.size(); i++)
+				{
+					programList.get(i).remove_Elective(currentCourse);
+					programList.get(i).removeRequiredCourses(currentCourse);
+				}
+				
+				
+				Platform.runLater(() -> {
+					start(primaryStage);
+				});
+			});
+		}
+	});	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		backToLoginButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
 				primaryStage.setScene(loginScene);

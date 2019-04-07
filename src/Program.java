@@ -92,11 +92,11 @@ public class Program implements Serializable
 	public void remove_Elective(String name){
 		if(electivelist.contains(name)) {
 			electivelist.remove(name);
-		}else {
+		}/*else {
 			//should display a message on a window but for now its just outputs to terminal
 			System.out.println("\nElective "+name+" was not found.");
 			System.out.println("Make sure you spelled it correctly.");
-		}
+		}*/
 		//save?
 	}
 	//we should save the stuff
@@ -126,10 +126,10 @@ public class Program implements Serializable
 	public void removeRequiredCourses(String rc){
 		if (requiredCoursesList.contains(rc)){
 			requiredCoursesList.remove(rc);
-		} else {
+		} /*else {
 			System.out.println("\nRequired course "+rc+" was not found.");
 			System.out.println("Make sure you spelled it correctly.");
-		}
+		}*/
 	}
 
 	public void removeAllRequiredCourses(){

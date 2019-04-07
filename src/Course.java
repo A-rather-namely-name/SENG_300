@@ -84,13 +84,13 @@ public class Course implements Serializable {
 		{
 			mutually_exclusive.remove(name);
 		}
-
+/*
 		else
 		{
 			//should display a message on a window but for now its just outputs to terminal
 			System.out.println("\nMutually_exclusive course "+name+" was not found.");
 			System.out.println("Make sure you spelled it correctly.");
-		}
+		}*/
 		//save?
 	}
 
@@ -127,13 +127,13 @@ public class Course implements Serializable {
 		{
 			pre_req.remove(name);
 		}
-
+/*
 		else
 		{
 			//should display a message on a window but for now its just outputs to terminal
 			System.out.println("\nPre-requisite "+name+" was not found.");
 			System.out.println("Make sure you spelled it correctly.");
-		}
+		}*/
 		//save?
 	}
 
