@@ -53,6 +53,8 @@ public class GUI extends Application{
   //Course selected to be edited
   Course courseToEdit;
 
+	//Course courseToAdd;
+
   private BackgroundImage BI= new BackgroundImage(new Image("winnipeg.jpg",winX,winY,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
   private Background background = new Background(BI);
   @Override
@@ -130,7 +132,9 @@ public class GUI extends Application{
     quitButton.setText("Exit and Save");
     menuGrid.add(quitButton, 0, 4);
 
-		menuGrid.add(backToLoginButton, 4, 6);
+		//Button backToLoginButton2 = new Button();
+		//backToLoginButton2.setText("Back To Login Screen");
+		//menuGrid.add(backToLoginButton2, 1, 4);
 
     Image image1 = new Image("/UW_centre-stack_rgb-black.png", true);
     ImageView iv1 = new ImageView();
@@ -812,8 +816,188 @@ public class GUI extends Application{
 
     Scene listCourseScene = new Scene(listCourseBox, winX, winY);
 
+	///////////////////////////////////////////////
+	//Scrollpane for programs in the student view//
+	///////////////////////////////////////////////
+
+	VBox stlistProgramBox = new VBox();
+	stlistProgramBox.setBackground(background);
+	stlistProgramBox.setAlignment(Pos.CENTER);
+	stlistProgramBox.setSpacing(10);
+
+	ScrollPane stsp = new ScrollPane();
+	Text sttitle = new Text();
+	sttitle.setFont(new Font(30));
+	sttitle.setText("Programs");
+
+	//All of the Text Objects
+	ArrayList<Text> stprogramText = new ArrayList<Text>();
+
+	//Get text for each program
+	for(int i = 0; i < programList.size(); i++)
+	{
+		Program stviewingProgram = programList.get(i);
+
+		//Set up the header with program ID and Title in bigger font
+		Text stheader = new Text();
+		stheader.setText("    " + stviewingProgram.getProgramID() + ": " + stviewingProgram.getProgramTitle());
+		stheader.setFont(new Font(16));
+		stprogramText.add(stheader);
+
+		//Set up the body with description, departments, electives and required courses
+		String stallText = "";
+
+		stallText += "     " + stviewingProgram.getProgramDesc() + "\n\n";
+
+		//Comma separated fields
+		String stdepartString;
+		String stelectString;
+		String strequireString;
+
+		//String joiners to add commas
+		StringJoiner stdepartJoiner = new StringJoiner(",");
+		StringJoiner stelectJoiner = new StringJoiner(",");
+		StringJoiner strequireJoiner = new StringJoiner(",");
+
+		//Departments
+		for (String s: stviewingProgram.getDepartments())
+			stdepartJoiner.add(s);
+		stdepartString = stdepartJoiner.toString();
+
+		//Electives
+		for (String s: stviewingProgram.getElectives())
+			stelectJoiner.add(s);
+		stelectString = stelectJoiner.toString();
+
+		//Requirements
+		for (String s: stviewingProgram.getRequiredCourses())
+			strequireJoiner.add(s);
+		strequireString = strequireJoiner.toString();
+
+		//Add them into our text
+		stallText += "     Departments: " + stdepartString + "\n";
+		stallText += "     Electives: " + stelectString + "\n";
+		stallText += "     Required Courses: " + strequireString + "\n\n";
+
+		//Set properties of body text
+		Text stbody = new Text();
+		stbody.setText(stallText);
+		stbody.setFont(new Font(12));
+		stprogramText.add(stbody);
+	}
+
+    Button stProgramBackButton = new Button();
+    stProgramBackButton.setText("Back to Menu");
+
+	//VBox for scroll stuff
+	VBox stscrollText = new VBox();
+	stscrollText.setSpacing(0);
+	stscrollText.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+
+	//Add the text to the scroll VBox
+	for (Text t: stprogramText)
+		stscrollText.getChildren().add(t);
+
+	//Add the VBox to the ScrollPane
+	stsp.setContent(scrollText);
+	stsp.setPrefHeight(300);
+	stsp.setId("sp");
+	stsp.getStylesheets().add("style.css");
 
 
+
+    stlistProgramBox.getChildren().addAll(sttitle, stsp, stProgramBackButton);
+
+    Scene stlistProgramsScene = new Scene(stlistProgramBox, winX, winY);
+
+
+
+
+	///////////////////////////////////////////////
+	//Scrollpane for courses in the student view//
+	///////////////////////////////////////////////
+
+	VBox stlistCourseBox = new VBox();
+	stlistCourseBox.setBackground(background);
+	stlistCourseBox.setAlignment(Pos.CENTER);
+	stlistCourseBox.setSpacing(10);
+
+	ScrollPane stsp2 = new ScrollPane();
+	Text sttitle2 = new Text();
+	sttitle2.setFont(new Font(30));
+	sttitle2.setText("Courses");
+
+
+	//All of the Text Objects
+	ArrayList<Text> stcourseText = new ArrayList<Text>();
+
+	//Get text for each course
+	for(int i = 0; i < courseList.size(); i++)
+	{
+		Course stviewingCourse = courseList.get(i);
+
+		//Set up the header with program ID and Title in bigger font
+		Text stcourseHeader = new Text();
+		stcourseHeader.setText("    " + stviewingCourse.get_id() + ": " + stviewingCourse.get_title() + "	" + stviewingCourse.get_year());
+		stcourseHeader.setFont(new Font(16));
+		stcourseText.add(stcourseHeader);
+
+		//Set up the body with description, prereqs and mutually exclusives
+		String stallCourseText = "";
+
+		stallCourseText += "     " + stviewingCourse.get_descr() + "\n\n";
+
+		//Comma separated fields
+		String stprereqString;
+		String stmutExString;
+
+		StringJoiner stprereqJoiner = new StringJoiner(",");
+		StringJoiner stmutExJoiner = new StringJoiner(",");
+
+		//Pre Reqs
+		for (String s: stviewingCourse.get_pre_reqs())
+			stprereqJoiner.add(s);
+		stprereqString = stprereqJoiner.toString();
+
+		//Mutually Exclusive courses
+		for (String s: stviewingCourse.get_mutually_exclusive())
+			stmutExJoiner.add(s);
+		stmutExString = stmutExJoiner.toString();
+
+		//Add them into our text
+		stallCourseText += "     Pre-Requisites: " + stprereqString + "\n";
+		stallCourseText += "     Mutually Exclusive Courses: " + stmutExString + "\n\n";
+
+		//Set properties of body text
+		Text stcourseBody = new Text();
+		stcourseBody.setText(stallCourseText);
+		stcourseBody.setFont(new Font(12));
+		stcourseText.add(stcourseBody);
+	}
+
+    Button stviewCoursebackButton = new Button();
+    stviewCoursebackButton.setText("Back to Menu");
+
+	//VBox for scroll stuff
+	VBox stscrollTextCourse = new VBox();
+	stscrollTextCourse.setSpacing(0);
+	stscrollTextCourse.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+
+	//Add the text to the scroll VBox
+	for (Text t: stcourseText)
+		stscrollTextCourse.getChildren().add(t);
+
+	//Add the VBox to the ScrollPane
+	stsp2.setContent(stscrollTextCourse);
+	stsp2.setPrefHeight(300);
+	stsp2.setId("sp");
+	stsp2.getStylesheets().add("style.css");
+
+
+
+  stlistCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sttitle2, stsp2, stviewCoursebackButton);
+
+  Scene stlistCourseScene = new Scene(stlistCourseBox, winX, winY);
 
 
 
@@ -839,6 +1023,12 @@ public class GUI extends Application{
 		viewCoursebackButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
         primaryStage.setScene(menuScene);
+      }
+    });
+
+		stviewCoursebackButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(stdScene);
       }
     });
 
@@ -954,7 +1144,7 @@ public class GUI extends Application{
 
 		stdListProgramsButton.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				primaryStage.setScene(stdListProgramsScene);
+				primaryStage.setScene(stlistProgramsScene);
 			}
 		});
 
@@ -1366,20 +1556,17 @@ public class GUI extends Application{
 		}
 	});
 
-
-
-
-
-
-
-
-
-
 		backToLoginButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
 				primaryStage.setScene(loginScene);
 			}
 		});
+
+		/*backToLoginButton2.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+				primaryStage.setScene(loginScene);
+			}
+		});*/
 
 		backToStudentSceneButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
@@ -1402,6 +1589,17 @@ public class GUI extends Application{
       }
     });
 
+		stdListCoursesButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+				primaryStage.setScene(stlistCourseScene);
+			}
+		});
+
+		stProgramBackButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+				primaryStage.setScene(stdScene);
+			}
+		});
 
 
   }
