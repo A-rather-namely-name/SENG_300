@@ -53,6 +53,8 @@ public class GUI extends Application{
   //Course selected to be edited
   Course courseToEdit;
 
+  private BackgroundImage BI= new BackgroundImage(new Image("winnipeg.jpg",winX,winY,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+  private Background background = new Background(BI);
   @Override
   public void start(Stage primaryStage){
     if(load) {
@@ -372,12 +374,12 @@ public class GUI extends Application{
     //vbox and scene for the viewing programs
 
     VBox listProgramBox = new VBox();
-		listProgramBox.setStyle("-fx-background-color:#85c124;");
-    listProgramBox.setAlignment(Pos.CENTER_LEFT);
+	listProgramBox.setBackground(background);
+    listProgramBox.setAlignment(Pos.CENTER);
     listProgramBox.setSpacing(10);
-	
-	
-	
+
+
+
 	//Unused
     ChoiceBox<String> programListChoiceBox = new ChoiceBox<String>();
     for (int i = 0; i < programList.size(); i++){
@@ -389,29 +391,29 @@ public class GUI extends Application{
 	//Unused
     Button viewProgramButton = new Button();
     viewProgramButton.setText("View Program");
-	
+
 	//ScrollPane that will contain all program inof to be scrolled through
 	ScrollPane sp = new ScrollPane();
-	
+
 	//All of the Text Objects
 	ArrayList<Text> programText = new ArrayList<Text>();
-	
+
 	//Get text for each program
 	for(int i = 0; i < programList.size(); i++)
 	{
 		Program viewingProgram = programList.get(i);
-		
+
 		//Set up the header with program ID and Title in bigger font
-		Text header = new Text();			
+		Text header = new Text();
 		header.setText(viewingProgram.getProgramID() + ": " + viewingProgram.getProgramTitle());
 		header.setFont(new Font(16));
 		programText.add(header);
-		
+
 		//Set up the body with description, departments, electives and required courses
 		String allText = "";
-		
+
 		allText += viewingProgram.getProgramDesc() + "\n\n";
-		
+
 		//Comma separated fields
 		String departString;
 		String electString;
@@ -431,38 +433,44 @@ public class GUI extends Application{
 		for (String s: viewingProgram.getElectives())
 			electJoiner.add(s);
 		electString = electJoiner.toString();
-		
+
 		//Requirements
 		for (String s: viewingProgram.getRequiredCourses())
 			requireJoiner.add(s);
 		requireString = requireJoiner.toString();
-		
+
 		//Add them into our text
 		allText += "Departments: " + departString + "\n";
 		allText += "Electives: " + electString + "\n";
 		allText += "Required Courses: " + requireString + "\n\n";
-		
+
 		//Set properties of body text
 		Text body = new Text();
 		body.setText(allText);
 		body.setFont(new Font(12));
 		programText.add(body);
 	}
-	
+
     Button backButton = new Button();
     backButton.setText("Back to Menu");
-	
+
 	//VBox for scroll stuff
 	VBox scrollText = new VBox();
 	scrollText.setSpacing(0);
-	
+	scrollText.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+
 	//Add the text to the scroll VBox
 	for (Text t: programText)
 		scrollText.getChildren().add(t);
-	
+
 	//Add the VBox to the ScrollPane
 	sp.setContent(scrollText);
-	
+	sp.setPrefHeight(300);
+	sp.setId("sp");
+	sp.getStylesheets().add("style.css");
+
+
+
     listProgramBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp, backButton);
 
     Scene listProgramsScene = new Scene(listProgramBox, winX, winY);
@@ -568,7 +576,7 @@ public class GUI extends Application{
 
 	Button deleteProgramButton = new Button();
 	deleteProgramButton.setText("Delete Program");
-	
+
     Button editBackButton = new Button();
     editBackButton.setText("Back to Menu");
 
@@ -672,7 +680,7 @@ public class GUI extends Application{
 
 	Button deleteCourseButton = new Button();
 	deleteCourseButton.setText("Delete Course");
-	
+
     editCourseBox.getChildren().addAll(editCourseListChoiceBox, editThisCourseButton, deleteCourseButton, editCourseBackButton);
 
     Scene editCourseScene = new Scene(editCourseBox, winX, winY);
@@ -716,7 +724,86 @@ public class GUI extends Application{
     Scene editThisCourseScene = new Scene(editThisCourseBox, 500, 500);
 
 
+    //vbox and scene for the viewing programs
 
+    VBox listCourseBox = new VBox();
+	listCourseBox.setBackground(background);
+    listCourseBox.setAlignment(Pos.CENTER);
+    listCourseBox.setSpacing(10);
+
+	//ScrollPane that will contain all course info to be scrolled through
+	ScrollPane sp2 = new ScrollPane();
+
+	//All of the Text Objects
+	ArrayList<Text> courseText = new ArrayList<Text>();
+
+	//Get text for each course
+	for(int i = 0; i < courseList.size(); i++)
+	{
+		Course viewingCourse = courseList.get(i);
+
+		//Set up the header with program ID and Title in bigger font
+		Text courseHeader = new Text();
+		courseHeader.setText(viewingCourse.get_id() + ": " + viewingCourse.get_title() + "	" + viewingCourse.get_year());
+		courseHeader.setFont(new Font(16));
+		courseText.add(courseHeader);
+
+		//Set up the body with description, prereqs and mutually exclusives
+		String allCourseText = "";
+
+		allCourseText += viewingCourse.get_descr() + "\n\n";
+
+		//Comma separated fields
+		String prereqString;
+		String mutExString;
+
+		StringJoiner prereqJoiner = new StringJoiner(",");
+		StringJoiner mutExJoiner = new StringJoiner(",");
+
+		//Pre Reqs
+		for (String s: viewingCourse.get_pre_reqs())
+			prereqJoiner.add(s);
+		prereqString = prereqJoiner.toString();
+
+		//Mutually Exclusive courses
+		for (String s: viewingCourse.get_mutually_exclusive())
+			mutExJoiner.add(s);
+		mutExString = mutExJoiner.toString();
+
+		//Add them into our text
+		allCourseText += "Pre-Requisites: " + prereqString + "\n";
+		allCourseText += "Mutually Exclusive Courses: " + mutExString + "\n\n";
+
+		//Set properties of body text
+		Text courseBody = new Text();
+		courseBody.setText(allCourseText);
+		courseBody.setFont(new Font(12));
+		courseText.add(courseBody);
+	}
+
+    Button viewCoursebackButton = new Button();
+    viewCoursebackButton.setText("Back to Menu");
+
+	//VBox for scroll stuff
+	VBox scrollTextCourse = new VBox();
+	scrollTextCourse.setSpacing(0);
+	scrollTextCourse.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+
+	//Add the text to the scroll VBox
+	for (Text t: courseText)
+		scrollTextCourse.getChildren().add(t);
+
+	//Add the VBox to the ScrollPane
+	sp2.setContent(scrollTextCourse);
+	sp2.setPrefHeight(300);
+	sp2.setId("sp");
+	sp2.getStylesheets().add("style.css");
+
+
+
+    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp2, backButton);
+
+    Scene listCourseScene = new Scene(listCourseBox, winX, winY);
 
 
 
@@ -773,7 +860,7 @@ public class GUI extends Application{
 
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
+					String s = currentCourse.get_id();
 					CheckBox courseToAdd = electivesMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.add_Elective(s);
@@ -781,7 +868,7 @@ public class GUI extends Application{
 				}
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
+					String s = currentCourse.get_id();
 					CheckBox courseToAdd = requiredMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.addRequiredCourses(s);
@@ -980,44 +1067,44 @@ public class GUI extends Application{
       }
     });
 
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	//This button is used to delete the selected program
 	deleteProgramButton.setOnAction(new EventHandler<ActionEvent>(){
 		public void handle(ActionEvent event){
 			SwingUtilities.invokeLater(() -> {
 				//This is the selected program to be deleted
 				String currentProgram = editProgramListChoiceBox.getValue();
-				
+
 				//Go through the program list to find the selected program
 				for (int i = 0; i < programList.size(); i++)
 				{
 					if (programList.get(i).getProgramID() == currentProgram)
 						programList.remove(i);
 				}
-				
+
 				Platform.runLater(() -> {
 					start(primaryStage);
 				});
 			});
 		}
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
     //this button takes the changed inputs and edits the current program, back to menu scene
     submitEditButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
@@ -1063,6 +1150,13 @@ public class GUI extends Application{
 	//////////////////
 	//Course Buttons//
 	//////////////////
+
+    //this button changes to the list course scene
+    listCoursesButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(listCourseScene);
+      }
+    });
 
     //this button changes the scene to the add course scene
     addCourseButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -1222,52 +1316,52 @@ public class GUI extends Application{
       }
     });
 
-	
+
 	//This button is used to delete the selected course
 	deleteCourseButton.setOnAction(new EventHandler<ActionEvent>(){
 		public void handle(ActionEvent event){
 			SwingUtilities.invokeLater(() -> {
 				//This is the selected course to be deleted
 				String currentCourse = editCourseListChoiceBox.getValue();
-				
+
 				//Delete the course from any pre requisite or mutually exclusive spots in other courses
 				for (int i = 0; i < courseList.size(); i++)
 				{
 					courseList.get(i).remove_pre_req(currentCourse);
-					courseList.get(i).remove_mutually_exclusive(currentCourse);										
+					courseList.get(i).remove_mutually_exclusive(currentCourse);
 				}
-				
+
 				//Go through the course list to find the selected course to delete it
 				for (int i = 0; i < courseList.size(); i++)
-				{									
+				{
 					if (courseList.get(i).get_id() == currentCourse)
-						courseList.remove(i);					
-				}	
-				
+						courseList.remove(i);
+				}
+
 				//Delete the course from any prgrams where it is an elective or requirement
 				for (int i = 0; i < programList.size(); i++)
 				{
 					programList.get(i).remove_Elective(currentCourse);
 					programList.get(i).removeRequiredCourses(currentCourse);
 				}
-				
-				
+
+
 				Platform.runLater(() -> {
 					start(primaryStage);
 				});
 			});
 		}
-	});	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	});
+
+
+
+
+
+
+
+
+
+
 		backToLoginButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
 				primaryStage.setScene(loginScene);
