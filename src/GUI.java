@@ -860,7 +860,7 @@ public class GUI extends Application{
 
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
+					String s = currentCourse.get_id();
 					CheckBox courseToAdd = electivesMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.add_Elective(s);
@@ -868,7 +868,7 @@ public class GUI extends Application{
 				}
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_title();
+					String s = currentCourse.get_id();
 					CheckBox courseToAdd = requiredMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.addRequiredCourses(s);
