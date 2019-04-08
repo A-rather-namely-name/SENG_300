@@ -808,7 +808,7 @@ public class GUI extends Application{
 
 
 
-    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/title2, sp2, backButton);
+    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/title2, sp2, viewCoursebackButton);
 
     Scene listCourseScene = new Scene(listCourseBox, winX, winY);
 
@@ -831,6 +831,12 @@ public class GUI extends Application{
 
     //this button changes the scene back to the main menu
     backButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(menuScene);
+      }
+    });
+
+		viewCoursebackButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
         primaryStage.setScene(menuScene);
       }
