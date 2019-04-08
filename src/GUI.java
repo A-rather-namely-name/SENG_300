@@ -53,6 +53,8 @@ public class GUI extends Application{
   //Course selected to be edited
   Course courseToEdit;
 
+  private BackgroundImage BI= new BackgroundImage(new Image("winnipeg.jpg",600,400,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+  private Background background = new Background(BI);
   @Override
   public void start(Stage primaryStage){
     if(load) {
@@ -372,8 +374,8 @@ public class GUI extends Application{
     //vbox and scene for the viewing programs
 
     VBox listProgramBox = new VBox();
-		listProgramBox.setStyle("-fx-background-color:#85c124;");
-    listProgramBox.setAlignment(Pos.CENTER_LEFT);
+	listProgramBox.setBackground(background);
+    listProgramBox.setAlignment(Pos.CENTER);
     listProgramBox.setSpacing(10);
 	
 	
@@ -455,6 +457,7 @@ public class GUI extends Application{
 	//VBox for scroll stuff
 	VBox scrollText = new VBox();
 	scrollText.setSpacing(0);
+	scrollText.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
 	
 	//Add the text to the scroll VBox
 	for (Text t: programText)
@@ -462,6 +465,11 @@ public class GUI extends Application{
 	
 	//Add the VBox to the ScrollPane
 	sp.setContent(scrollText);
+	sp.setPrefHeight(300);
+	sp.setId("sp");
+	sp.getStylesheets().add("style.css");
+	
+	
 	
     listProgramBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp, backButton);
 
