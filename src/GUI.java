@@ -53,7 +53,7 @@ public class GUI extends Application{
   //Course selected to be edited
   Course courseToEdit;
 
-  private BackgroundImage BI= new BackgroundImage(new Image("winnipeg.jpg",600,400,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+  private BackgroundImage BI= new BackgroundImage(new Image("winnipeg.jpg",winX,winY,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
   private Background background = new Background(BI);
   @Override
   public void start(Stage primaryStage){
@@ -724,7 +724,86 @@ public class GUI extends Application{
     Scene editThisCourseScene = new Scene(editThisCourseBox, 500, 500);
 
 
+    //vbox and scene for the viewing programs
 
+    VBox listCourseBox = new VBox();
+	listCourseBox.setBackground(background);
+    listCourseBox.setAlignment(Pos.CENTER);
+    listCourseBox.setSpacing(10);
+	
+	//ScrollPane that will contain all course info to be scrolled through
+	ScrollPane sp2 = new ScrollPane();
+	
+	//All of the Text Objects
+	ArrayList<Text> courseText = new ArrayList<Text>();
+	
+	//Get text for each course
+	for(int i = 0; i < courseList.size(); i++)
+	{
+		Course viewingCourse = courseList.get(i);
+		
+		//Set up the header with program ID and Title in bigger font
+		Text courseHeader = new Text();			
+		courseHeader.setText(viewingCourse.get_id() + ": " + viewingCourse.get_title() + "	" + viewingCourse.get_year());
+		courseHeader.setFont(new Font(16));
+		courseText.add(courseHeader);
+		
+		//Set up the body with description, prereqs and mutually exclusives
+		String allCourseText = "";
+		
+		allCourseText += viewingCourse.get_descr() + "\n\n";
+		
+		//Comma separated fields
+		String prereqString;
+		String mutExString;
+
+		StringJoiner prereqJoiner = new StringJoiner(",");
+		StringJoiner mutExJoiner = new StringJoiner(",");
+
+		//Pre Reqs
+		for (String s: viewingCourse.get_pre_reqs())
+			prereqJoiner.add(s);
+		prereqString = prereqJoiner.toString();
+
+		//Mutually Exclusive courses
+		for (String s: viewingCourse.get_mutually_exclusive())
+			mutExJoiner.add(s);
+		mutExString = mutExJoiner.toString();
+		
+		//Add them into our text
+		allCourseText += "Pre-Requisites: " + prereqString + "\n";
+		allCourseText += "Mutually Exclusive Courses: " + mutExString + "\n\n";
+		
+		//Set properties of body text
+		Text courseBody = new Text();
+		courseBody.setText(allCourseText);
+		courseBody.setFont(new Font(12));
+		courseText.add(courseBody);
+	}
+	
+    Button viewCoursebackButton = new Button();
+    viewCoursebackButton.setText("Back to Menu");
+	
+	//VBox for scroll stuff
+	VBox scrollTextCourse = new VBox();
+	scrollTextCourse.setSpacing(0);
+	scrollTextCourse.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+	
+	//Add the text to the scroll VBox
+	for (Text t: courseText)
+		scrollTextCourse.getChildren().add(t);
+	
+	//Add the VBox to the ScrollPane
+	sp2.setContent(scrollTextCourse);
+	sp2.setPrefHeight(300);
+	sp2.setId("sp");
+	sp2.getStylesheets().add("style.css");
+	
+	
+	
+    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp2, backButton);
+
+    Scene listCourseScene = new Scene(listCourseBox, winX, winY);
 
 
 
@@ -1072,6 +1151,13 @@ public class GUI extends Application{
 	//Course Buttons//
 	//////////////////
 
+    //this button changes to the list course scene
+    listCoursesButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+        primaryStage.setScene(listCourseScene);
+      }
+    });	
+	
     //this button changes the scene to the add course scene
     addCourseButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
