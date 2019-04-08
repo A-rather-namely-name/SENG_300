@@ -10,6 +10,7 @@ import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javax.swing.*;
+import javafx.scene.text.*;
 
 public class GUI extends Application{
 	private boolean load = true;
@@ -372,9 +373,12 @@ public class GUI extends Application{
 
     VBox listProgramBox = new VBox();
 		listProgramBox.setStyle("-fx-background-color:#85c124;");
-    listProgramBox.setAlignment(Pos.CENTER);
+    listProgramBox.setAlignment(Pos.CENTER_LEFT);
     listProgramBox.setSpacing(10);
-
+	
+	
+	
+	
     ChoiceBox<String> programListChoiceBox = new ChoiceBox<String>();
     for (int i = 0; i < programList.size(); i++){
       Program currentProgram = programList.get(i);
@@ -384,11 +388,70 @@ public class GUI extends Application{
 
     Button viewProgramButton = new Button();
     viewProgramButton.setText("View Program");
+	
+	
+	ScrollPane sp = new ScrollPane();
+	
+	ArrayList<Text> programText = new ArrayList<Text>();
+	
+	for(int i = 0; i < programList.size(); i++)
+	{
+		Program viewingProgram = programList.get(i);
+		
+		Text header = new Text();			
+		header.setText(viewingProgram.getProgramID() + ": " + viewingProgram.getProgramTitle());
+		header.setFont(new Font(16));
+		programText.add(header);
+		
+		String allText = "";
+		
+		allText += viewingProgram.getProgramDesc() + "\n\n";
+		
+		String departString;
+		String electString;
+		String requireString;
 
+		StringJoiner departJoiner = new StringJoiner(",");
+		StringJoiner electJoiner = new StringJoiner(",");
+		StringJoiner requireJoiner = new StringJoiner(",");
+
+		//Departments
+		for (String s: viewingProgram.getDepartments())
+			departJoiner.add(s);
+		departString = departJoiner.toString();
+
+		//Electives
+		for (String s: viewingProgram.getElectives())
+			electJoiner.add(s);
+		electString = electJoiner.toString();
+		
+		//Requirements
+		for (String s: viewingProgram.getRequiredCourses())
+			requireJoiner.add(s);
+		requireString = requireJoiner.toString();
+		
+		allText += "Departments: " + departString + "\n";
+		allText += "Electives: " + electString + "\n";
+		allText += "Required Courses: " + requireString + "\n\n";
+		
+		Text body = new Text();
+		body.setText(allText);
+		body.setFont(new Font(12));
+		programText.add(body);
+	}
+	
     Button backButton = new Button();
     backButton.setText("Back to Menu");
-
-    listProgramBox.getChildren().addAll(programListChoiceBox, viewProgramButton, backButton);
+	
+	VBox scrollText = new VBox();
+	scrollText.setSpacing(0);
+	
+	for (Text t: programText)
+		scrollText.getChildren().add(t);
+	
+	sp.setContent(scrollText);
+	
+    listProgramBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp, backButton);
 
     Scene listProgramsScene = new Scene(listProgramBox, winX, winY);
 
@@ -698,7 +761,7 @@ public class GUI extends Application{
 
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_id();
+					String s = currentCourse.get_title();
 					CheckBox courseToAdd = electivesMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.add_Elective(s);
@@ -706,7 +769,7 @@ public class GUI extends Application{
 				}
 				for (int i = 0; i < courseList.size(); i++){
 					Course currentCourse = courseList.get(i);
-					String s = currentCourse.get_id();
+					String s = currentCourse.get_title();
 					CheckBox courseToAdd = requiredMap.get(s);
 					if (courseToAdd.isSelected()){
 						program.addRequiredCourses(s);
