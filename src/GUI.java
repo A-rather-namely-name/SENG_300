@@ -458,7 +458,11 @@ public class GUI extends Application{
 	VBox scrollText = new VBox();
 	scrollText.setSpacing(0);
 	scrollText.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
 	//Add the text to the scroll VBox
 	for (Text t: programText)
 		scrollText.getChildren().add(t);
@@ -468,9 +472,15 @@ public class GUI extends Application{
 	sp.setPrefHeight(300);
 	sp.setId("sp");
 	sp.getStylesheets().add("style.css");
+<<<<<<< HEAD
 
 
 
+=======
+	
+	
+	
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
     listProgramBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp, backButton);
 
     Scene listProgramsScene = new Scene(listProgramBox, winX, winY);
@@ -730,6 +740,7 @@ public class GUI extends Application{
 	listCourseBox.setBackground(background);
     listCourseBox.setAlignment(Pos.CENTER);
     listCourseBox.setSpacing(10);
+<<<<<<< HEAD
 
 	//ScrollPane that will contain all course info to be scrolled through
 	ScrollPane sp2 = new ScrollPane();
@@ -737,10 +748,20 @@ public class GUI extends Application{
 	//All of the Text Objects
 	ArrayList<Text> courseText = new ArrayList<Text>();
 
+=======
+	
+	//ScrollPane that will contain all course info to be scrolled through
+	ScrollPane sp2 = new ScrollPane();
+	
+	//All of the Text Objects
+	ArrayList<Text> courseText = new ArrayList<Text>();
+	
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
 	//Get text for each course
 	for(int i = 0; i < courseList.size(); i++)
 	{
 		Course viewingCourse = courseList.get(i);
+<<<<<<< HEAD
 
 		//Set up the header with program ID and Title in bigger font
 		Text courseHeader = new Text();
@@ -753,6 +774,20 @@ public class GUI extends Application{
 
 		allCourseText += viewingCourse.get_descr() + "\n\n";
 
+=======
+		
+		//Set up the header with program ID and Title in bigger font
+		Text courseHeader = new Text();			
+		courseHeader.setText(viewingCourse.get_id() + ": " + viewingCourse.get_title() + "	" + viewingCourse.get_year());
+		courseHeader.setFont(new Font(16));
+		courseText.add(courseHeader);
+		
+		//Set up the body with description, prereqs and mutually exclusives
+		String allCourseText = "";
+		
+		allCourseText += viewingCourse.get_descr() + "\n\n";
+		
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
 		//Comma separated fields
 		String prereqString;
 		String mutExString;
@@ -769,40 +804,71 @@ public class GUI extends Application{
 		for (String s: viewingCourse.get_mutually_exclusive())
 			mutExJoiner.add(s);
 		mutExString = mutExJoiner.toString();
+<<<<<<< HEAD
 
 		//Add them into our text
 		allCourseText += "Pre-Requisites: " + prereqString + "\n";
 		allCourseText += "Mutually Exclusive Courses: " + mutExString + "\n\n";
 
+=======
+		
+		//Add them into our text
+		allCourseText += "Pre-Requisites: " + prereqString + "\n";
+		allCourseText += "Mutually Exclusive Courses: " + mutExString + "\n\n";
+		
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
 		//Set properties of body text
 		Text courseBody = new Text();
 		courseBody.setText(allCourseText);
 		courseBody.setFont(new Font(12));
 		courseText.add(courseBody);
 	}
+<<<<<<< HEAD
 
     Button viewCoursebackButton = new Button();
     viewCoursebackButton.setText("Back to Menu");
 
+=======
+	
+    Button viewCoursebackButton = new Button();
+    viewCoursebackButton.setText("Back to Menu");
+	
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
 	//VBox for scroll stuff
 	VBox scrollTextCourse = new VBox();
 	scrollTextCourse.setSpacing(0);
 	scrollTextCourse.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
+<<<<<<< HEAD
 
 	//Add the text to the scroll VBox
 	for (Text t: courseText)
 		scrollTextCourse.getChildren().add(t);
 
+=======
+	
+	//Add the text to the scroll VBox
+	for (Text t: courseText)
+		scrollTextCourse.getChildren().add(t);
+	
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
 	//Add the VBox to the ScrollPane
 	sp2.setContent(scrollTextCourse);
 	sp2.setPrefHeight(300);
 	sp2.setId("sp");
 	sp2.getStylesheets().add("style.css");
+<<<<<<< HEAD
 
 
 
     listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp2, backButton);
 
+=======
+	
+	
+	
+    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp2, backButton);
+
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
     Scene listCourseScene = new Scene(listCourseBox, winX, winY);
 
 
@@ -1156,8 +1222,13 @@ public class GUI extends Application{
       public void handle(ActionEvent event){
         primaryStage.setScene(listCourseScene);
       }
+<<<<<<< HEAD
     });
 
+=======
+    });	
+	
+>>>>>>> 0b2a83b2e7e8179eadc5ed237d192ff4760fb52d
     //this button changes the scene to the add course scene
     addCourseButton.setOnAction(new EventHandler<ActionEvent>(){
       public void handle(ActionEvent event){
