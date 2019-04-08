@@ -736,6 +736,10 @@ public class GUI extends Application{
 
 	//ScrollPane that will contain all course info to be scrolled through
 	ScrollPane sp2 = new ScrollPane();
+	Text title2 = new Text();
+	title2.setFont(new Font(30));
+	title2.setText("Courses");
+
 
 	//All of the Text Objects
 	ArrayList<Text> courseText = new ArrayList<Text>();
@@ -747,14 +751,14 @@ public class GUI extends Application{
 
 		//Set up the header with program ID and Title in bigger font
 		Text courseHeader = new Text();
-		courseHeader.setText(viewingCourse.get_id() + ": " + viewingCourse.get_title() + "	" + viewingCourse.get_year());
+		courseHeader.setText("    " + viewingCourse.get_id() + ": " + viewingCourse.get_title() + "	" + viewingCourse.get_year());
 		courseHeader.setFont(new Font(16));
 		courseText.add(courseHeader);
 
 		//Set up the body with description, prereqs and mutually exclusives
 		String allCourseText = "";
 
-		allCourseText += viewingCourse.get_descr() + "\n\n";
+		allCourseText += "     " + viewingCourse.get_descr() + "\n\n";
 
 		//Comma separated fields
 		String prereqString;
@@ -774,8 +778,8 @@ public class GUI extends Application{
 		mutExString = mutExJoiner.toString();
 
 		//Add them into our text
-		allCourseText += "Pre-Requisites: " + prereqString + "\n";
-		allCourseText += "Mutually Exclusive Courses: " + mutExString + "\n\n";
+		allCourseText += "     Pre-Requisites: " + prereqString + "\n";
+		allCourseText += "     Mutually Exclusive Courses: " + mutExString + "\n\n";
 
 		//Set properties of body text
 		Text courseBody = new Text();
@@ -804,7 +808,7 @@ public class GUI extends Application{
 
 
 
-    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp2, backButton);
+    listCourseBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/title2, sp2, backButton);
 
     Scene listCourseScene = new Scene(listCourseBox, winX, winY);
 
