@@ -378,7 +378,7 @@ public class GUI extends Application{
 	
 	
 	
-	
+	//Unused
     ChoiceBox<String> programListChoiceBox = new ChoiceBox<String>();
     for (int i = 0; i < programList.size(); i++){
       Program currentProgram = programList.get(i);
@@ -386,31 +386,38 @@ public class GUI extends Application{
       programListChoiceBox.getItems().add(s);
     }
 
+	//Unused
     Button viewProgramButton = new Button();
     viewProgramButton.setText("View Program");
 	
-	
+	//ScrollPane that will contain all program inof to be scrolled through
 	ScrollPane sp = new ScrollPane();
 	
+	//All of the Text Objects
 	ArrayList<Text> programText = new ArrayList<Text>();
 	
+	//Get text for each program
 	for(int i = 0; i < programList.size(); i++)
 	{
 		Program viewingProgram = programList.get(i);
 		
+		//Set up the header with program ID and Title in bigger font
 		Text header = new Text();			
 		header.setText(viewingProgram.getProgramID() + ": " + viewingProgram.getProgramTitle());
 		header.setFont(new Font(16));
 		programText.add(header);
 		
+		//Set up the body with description, departments, electives and required courses
 		String allText = "";
 		
 		allText += viewingProgram.getProgramDesc() + "\n\n";
 		
+		//Comma separated fields
 		String departString;
 		String electString;
 		String requireString;
 
+		//String joiners to add commas
 		StringJoiner departJoiner = new StringJoiner(",");
 		StringJoiner electJoiner = new StringJoiner(",");
 		StringJoiner requireJoiner = new StringJoiner(",");
@@ -430,10 +437,12 @@ public class GUI extends Application{
 			requireJoiner.add(s);
 		requireString = requireJoiner.toString();
 		
+		//Add them into our text
 		allText += "Departments: " + departString + "\n";
 		allText += "Electives: " + electString + "\n";
 		allText += "Required Courses: " + requireString + "\n\n";
 		
+		//Set properties of body text
 		Text body = new Text();
 		body.setText(allText);
 		body.setFont(new Font(12));
@@ -443,12 +452,15 @@ public class GUI extends Application{
     Button backButton = new Button();
     backButton.setText("Back to Menu");
 	
+	//VBox for scroll stuff
 	VBox scrollText = new VBox();
 	scrollText.setSpacing(0);
 	
+	//Add the text to the scroll VBox
 	for (Text t: programText)
 		scrollText.getChildren().add(t);
 	
+	//Add the VBox to the ScrollPane
 	sp.setContent(scrollText);
 	
     listProgramBox.getChildren().addAll(/*programListChoiceBox, viewProgramButton*/sp, backButton);
