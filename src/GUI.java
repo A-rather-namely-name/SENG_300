@@ -533,7 +533,7 @@ public class GUI extends Application{
 
 		for (int i = 0; i < courseList.size(); i++){
 			Course currentCourse = courseList.get(i);
-			String s = currentCourse.get_title();
+			String s = currentCourse.get_id();
 			//String courseName = new String(s);
 			CheckBox courseName = new CheckBox(s);
 			CustomMenuItem item1 = new CustomMenuItem(courseName);
@@ -547,7 +547,7 @@ public class GUI extends Application{
     MenuButton menuButton2 = new MenuButton();
 		for (int i = 0; i < courseList.size(); i++){
 			Course currentCourse = courseList.get(i);
-			String s = currentCourse.get_title();
+			String s = currentCourse.get_id();
 			//String courseName = new String(s);
 			CheckBox courseName = new CheckBox(s);
 			CustomMenuItem item1 = new CustomMenuItem(courseName);
